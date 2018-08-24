@@ -35,3 +35,39 @@ USER STORIES:
     Notes:
     TODO - Test that the user is notified of random events that occur during the day
 
+=========================================
+=========================================
+
+SPIKE USER STORIES:
+1) A user needs fixtures to turn on/off when they enter/leave a room to conserve energy
+    Estimate: 5 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test output is displayed correctly when relevant input is entered regarding leaving/entering rooms
+
+2) A user needs to load settings from a file in order to load settings for the smart house
+    Estimate: 5 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test different input in file loads correctly in application
+
+3) A user needs to be notified of events triggering based on environmental conditions that are met to make the house efficient
+    Estimate: 1 Day
+    Overall Status: TODO
+    Notes:
+    TODO - Test air-cons come on above 28 degrees in cooling mode
+    TODO - Test air-cons come on below 15 degrees in heating mode
+    TODO - Test air-cons are not on between 15 and 28 degrees
+    TODO - Test watering system turns off if it starts raining
+    TODO - Test watering system only turns on when sunlight is not at max
+    TODO - Test ceiling fans are only on between 20-27 degrees
+    TODO - Test Garage door is down if it starts raining
+    TODO - Test if sprinkler system comes on when moisture in soil drops below threshold
+
+4) A user needs to be notified of events triggering based on household activities/rules that are conducted to make the house work properly
+    Estimate: 5 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test room lights only turn on when sunlight is below a threshold and user is in a room
+    TODO - Test lights turn off after configured amount of time
+    TODO - Test Sunlight is reduced by the configured amount when raining
