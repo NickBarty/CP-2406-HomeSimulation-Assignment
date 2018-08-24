@@ -1,0 +1,37 @@
+USER STORIES:
+1) A user must be able to see the current time, electricity usage and water usage on demand so they know current metrics for the house
+    Estimate: 2 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test output to display correctly
+
+2) A user needs to be able to set the current room, device status, electricity usage and water usage so the fixture/appliance works
+    Estimate: 1 Hour
+    Overall Status: TODO
+    Notes:
+    TODO - Test set methods work on all applicable attributes
+
+3) A user needs to be able to get the current room, device status, electricity usage and water usage to display on screen
+    Estimate: 1 Hour
+    Overall Status: TODO
+    Notes:
+    TODO - Test get methods work on all applicable attributes
+
+4) A user needs to input commands in order to run household activities
+    Estimate: 4 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test that each valid input works as intended
+
+5) A user needs to track the amount of sunlight hitting the house over the day to make other systems function correctly
+    Estimate: 2 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test sunlight is tracked correctly throughout the day
+
+6) A user needs to be able to be notified of threats and hazards that occur randomly to make the house safe
+    Estimate: 4 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test that the user is notified of random events that occur during the day
+
