@@ -1,8 +1,11 @@
 # Home Automation Simulator
-This is the starting point for the CP2406 project codebase.
-Consider using this readme to record and track your progress through the semester
-# E.g. Task plan
-1. Review project brief (TODO)
-2. Establish initial version of the user stories (TODO)
-3. Establish initial version of the spikes (TODO)
-4. ...
+This is the CP2406 home automation simulator project codebase.
+# Task plan
+1. (ON-GOING) Review project brief 
+2. (TODO) Establish initial version of user stories 
+3. (TODO) Establish initial version of spikes user stories 
+4. (TODO) Establish UML Class diagram
+5. (TODO) Establish Classes
+6. (TODO) Set up classes based on the UML class diagram
+7. (TODO) Implement user stories one at a time
+8. (TODO) Refine application once all user stories have been implemented
