@@ -17,8 +17,8 @@ USER STORIES:
     Notes:
     TODO - Test get methods work on all applicable attributes
 
-4) A user needs to input commands in order to run household activities
-    Estimate: 4 Hours
+4) A user needs to be able to view the config file information before the simulation starts
+    Estimate: 1 Hours
     Overall Status: TODO
     Notes:
     TODO - Test that each valid input works as intended
