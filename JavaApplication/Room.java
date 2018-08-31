@@ -1,8 +1,9 @@
 /*
 Provides getters and setters for Room variables
 */
+
 public class Room {
-    public String currentRoom;
+    private String currentRoom;
 
     public String getCurrentRoom() {
         return currentRoom;

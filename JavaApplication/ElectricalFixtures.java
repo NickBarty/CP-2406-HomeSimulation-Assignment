@@ -1,8 +1,8 @@
 /*
 Provides getters and setters for ElectricalFixtures variables
 */
-public class ElectricalFixtures {
-    public int electricityUsage;
+public class ElectricalFixtures extends Fixtures{
+    private int electricityUsage;
 
     public int getElectricityUsage() {
         return electricityUsage;

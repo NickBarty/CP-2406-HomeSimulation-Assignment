@@ -2,9 +2,9 @@
 Provides getters and setters for Fixtures variables
 */
 public class Fixtures {
-    public boolean isOn;
-    public int autoOffTime;
-    public int onDuration;
+    private boolean isOn;
+    private int autoOffTime;
+    private int onDuration;
 
     public boolean getIsOn() {
         return isOn;

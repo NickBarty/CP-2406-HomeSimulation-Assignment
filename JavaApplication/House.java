@@ -2,13 +2,13 @@
 Provides getters and setters for House variables
 */
 public class House {
-    public int minTemp;
-    public int maxTemp;
-    public int currentTemp;
-    public int minSunlight = 0;
-    public int maxSunlight = 100;
-    public int currentSunlight;
-    public int soilMoisture;
+    private int minTemp;
+    private int maxTemp;
+    private int currentTemp;
+    private int minSunlight = 0;
+    private int maxSunlight = 100;
+    private int currentSunlight;
+    private int soilMoisture;
 
     public int getMinTemp() {
         return minTemp;

@@ -1,5 +1,5 @@
 USER STORIES:
-1) A user must be able to see the current time, electricity usage and water usage on demand so they know current metrics for the house
+1) A user needs to see the current time, electricity usage and water usage on demand so they know current metrics for the house
     Estimate: 2 Hours
     Overall Status: TODO
     Notes:
@@ -18,12 +18,12 @@ USER STORIES:
     TODO - Test get methods work on all applicable attributes
 
 4) A user needs to be able to view the config file information before the simulation starts
-    Estimate: 1 Hours
-    Overall Status: TODO
-    Notes:
-    TODO - Test that each valid input works as intended
+        Estimate: 1 Hours
+        Overall Status: COMPLETE
+        Notes:
+        Tested printing all metrics and worked correctly
 
-5) A user needs to track the amount of sunlight hitting the house over the day to make other systems function correctly
+5) A user needs to track the amount of sunlight hitting the house over the day
     Estimate: 2 Hours
     Overall Status: TODO
     Notes:

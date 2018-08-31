@@ -2,9 +2,9 @@
 Provides getters and setters for Appliances variables
 */
 public class Appliances {
-    public boolean isOn;
-    public int electricityUsage;
-    public int onDuration;
+    private boolean isOn;
+    private int electricityUsage;
+    private int onDuration;
 
     public boolean getIsOn() {
         return isOn;

@@ -1,8 +1,8 @@
 /*
 Provides getters and setters for WaterAppliances variables
 */
-public class WaterAppliances {
-    public double waterUsage;
+public class WaterAppliances extends Appliances{
+    private double waterUsage;
 
     public double getWaterUsage() {
         return waterUsage;
