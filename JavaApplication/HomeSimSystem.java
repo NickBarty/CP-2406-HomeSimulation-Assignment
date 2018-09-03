@@ -1,8 +1,5 @@
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 /*
 Provides menu for running the program
@@ -14,9 +11,8 @@ Provides method to load config file properties
 public class HomeSimSystem {
     public static void main(String[] args) {
         int userChoice = 0;
-        int currentTime = 0;
         final int START_TIME = 0;
-        final int END_TIME = 1441;
+        final int END_TIME = 1439;
 
         Scanner userInput = new Scanner(System.in);
 
@@ -25,7 +21,7 @@ public class HomeSimSystem {
             userChoice = userInput.nextInt();
             switch (userChoice) {
                 case 1:
-                    startSimulation();
+                    startSimulation(START_TIME, END_TIME);
                     userChoice = 3;
                     break;
                 case 2:
@@ -38,20 +34,67 @@ public class HomeSimSystem {
                     break;
             }
         }
-        System.out.println("Thanks for using the home automation simulator!");
+        System.out.println("\nThanks for using the home automation simulator!");
 
     }
 
-    public static void startSimulation() {
+    public static void startSimulation(int startTime, int endTime) {
 
-    }
+        //Get config variables
+        List options = loadConfigFile();
 
-    public static void simulateTime() {
+        //Create house object based on config parameters
+        House house = new House(Integer.parseInt(options.get(2).toString().replaceAll("\\D+", "")),
+                Integer.parseInt(options.get(0).toString().replaceAll("\\D+", "")),
+                Integer.parseInt(options.get(1).toString().replaceAll("\\D+", "")),
+                0, 100, 0,
+                Integer.parseInt(options.get(4).toString().replaceAll("\\D+", "")));
 
-    }
+        //Initialize and set variables
+        int meridianCheck = 0;
+        String meridian = "AM";
+        String message = "0";
+        int startHour = 5;
+        int simSpeed = Integer.parseInt(options.get(3).toString().replaceAll("\\D+", ""));
 
-    public static void getCurrentTime() {
+        System.out.println("\nThe Current Time is " + startHour + ":" + message + startTime % 60 + " " +
+                meridian + "\nThe current Sunlight is: " + house.getCurrentSunlight() +
+                "\nThe current Temperature is: " + house.getCurrentTemp());
+        System.out.println();
+        //Loop until start time is less than the end time, performing checks
+        while (startTime < endTime) {
+            try {
+                //Advance Time By 1 Minute
+                startTime++;
 
+
+                //Time Calculations
+                if (startTime % 60 < 10) {
+                    message = "0";
+                }
+                else message = "";
+                if (startHour % 13 == 0) {
+                    startHour = 1;
+                    meridianCheck++;
+                }
+                if (meridianCheck % 2 == 0) {
+                    meridian = "AM";
+                } else meridian = "PM";
+
+                if (startTime <= 120 && startTime > 20) {
+                    house.setCurrentSunlight(house.getCurrentSunlight() + 1);
+                }
+                //Print Status Of Everything On The Hour
+                if (startTime % 60 == 0) {
+                    ++startHour;
+
+                }
+                Thread.sleep(simSpeed);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public static void getTotalEnergyUsage() {
@@ -62,25 +105,47 @@ public class HomeSimSystem {
 
     }
 
-    public static void loadConfigFile() {
+    public static List loadConfigFile() {
+        String fileName = "config.csv";
+        File file = new File(fileName);
+        List<List<String>> lines = new ArrayList<>();
+        Scanner inputStream;
 
+        try {
+            inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                String line = inputStream.next();
+                String[] values = line.split(",");
+                lines.add(Arrays.asList(values));
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return lines;
     }
 
     public static void displayConfigData() {
-        Properties props = new Properties();
-        InputStream input = null;
-        try {
-            input = new FileInputStream("config.properties");
-            props.load(input);
+        String csvFile = "config.csv";
+        BufferedReader br = null;
+        String line;
+        String csvSplitBy = ",";
 
-            props.forEach((key, value) -> System.out.println(key + " = " + value));
+        try {
+            br = new BufferedReader(new FileReader(csvFile));
+            for (int i = 0; i < 5; ++i){
+                    line = br.readLine();
+                String[] property = line.split(csvSplitBy);
+                System.out.print(property[0] + " : " + property[1]);
+                System.out.println();
+            }
             System.out.println();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
-            if (input != null) {
+            if (br != null) {
                 try {
-                    input.close();
+                    br.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

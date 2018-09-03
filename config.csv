@@ -1,0 +1,16 @@
+maxTemperature,35
+startTemp,25
+minTemperature,10
+simSpeed,100
+startMoisture,75
+livingRoom,Fixtures,light,aircon,fan
+livingRoom,Appliances,light,aircon,fan
+bedRoom,Fixtures,light,fan
+bedRoomTwo,Fixtures,light,fan
+kitchen,Fixtures,light
+kitchen,Appliances,microwave,oven
+kitchen,WaterAppliances,jug,coffeeMachine
+garage,Fixtures,light
+garage,Appliances,car
+garden,Fixtures,light
+garden,WaterFixtures,sprinklers

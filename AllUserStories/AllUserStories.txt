@@ -1,17 +1,17 @@
 USER STORIES:
-1) A user needs to see the current time, electricity usage and water usage on demand so they know current metrics for the house
+1) A user needs to see the current time and house metrics of the house every hour
     Estimate: 2 Hours
-    Overall Status: TODO
+    Overall Status: Buggy
     Notes:
     TODO - Test output to display correctly
 
-2) A user needs to be able to set the current room, device status, electricity usage and water usage so the fixture/appliance works
+2) A user needs to be able to see all statuses of all fixtures of each room every hour
     Estimate: 1 Hour
     Overall Status: TODO
     Notes:
     TODO - Test set methods work on all applicable attributes
 
-3) A user needs to be able to get the current room, device status, electricity usage and water usage to display on screen
+3) A user needs to be able to see all statuses of all appliances of each room every hour
     Estimate: 1 Hour
     Overall Status: TODO
     Notes:
@@ -47,9 +47,9 @@ SPIKE USER STORIES:
 
 2) A user needs to load settings from a file in order to load settings for the smart house
     Estimate: 5 Hours
-    Overall Status: TODO
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test different input in file loads correctly in application
+    Different user inputs were tested in the file, all of which resulted in no errors
 
 3) A user needs to be notified of events triggering based on environmental conditions that are met to make the house efficient
     Estimate: 1 Day
