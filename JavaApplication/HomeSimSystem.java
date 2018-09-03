@@ -116,13 +116,10 @@ public class HomeSimSystem {
             try {
                 //Advance Time By 1 Minute
                 startTime++;
-
-
                 //Time Calculations
                 if (startTime % 60 < 10) {
                     message = "0";
-                }
-                else message = "";
+                } else message = "";
                 if (startHour % 13 == 0) {
                     startHour = 1;
                     meridianCheck++;
@@ -137,7 +134,21 @@ public class HomeSimSystem {
                 //Print Status Of Everything On The Hour
                 if (startTime % 60 == 0) {
                     ++startHour;
-
+                    livingRoom.displayObjects();
+                    System.out.println();
+                    bedRoom.displayObjects();
+                    System.out.println();
+                    bedRoom2.displayObjects();
+                    System.out.println();
+                    kitchen.displayObjects();
+                    System.out.println();
+                    garage.displayObjects();
+                    System.out.println();
+                    garden.displayObjects();
+                    System.out.println("The Current Time is " + startHour + ":" + message + startTime % 60 + " " +
+                            meridian + "\nThe current Sunlight is: " + house.getCurrentSunlight() +
+                            "\nThe current Temperature is: " + house.getCurrentTemp());
+                    System.out.println();
                 }
                 Thread.sleep(simSpeed);
             } catch (InterruptedException e) {
@@ -183,8 +194,8 @@ public class HomeSimSystem {
 
         try {
             br = new BufferedReader(new FileReader(csvFile));
-            for (int i = 0; i < 5; ++i){
-                    line = br.readLine();
+            for (int i = 0; i < 5; ++i) {
+                line = br.readLine();
                 String[] property = line.split(csvSplitBy);
                 System.out.print(property[0] + " : " + property[1]);
                 System.out.println();

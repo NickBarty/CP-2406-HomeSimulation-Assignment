@@ -1,40 +1,53 @@
 USER STORIES:
 1) A user needs to see the current time and house metrics of the house every hour
     Estimate: 2 Hours
-    Overall Status: Buggy
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test output to display correctly
+    Output has been tested and displays all metrics correctly
+=============================================================================================
 
 2) A user needs to be able to see all statuses of all fixtures of each room every hour
     Estimate: 1 Hour
-    Overall Status: TODO
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test set methods work on all applicable attributes
+    Tested that all statuses of fixtures are printed every hour, and all were printed
+=============================================================================================
 
 3) A user needs to be able to see all statuses of all appliances of each room every hour
     Estimate: 1 Hour
-    Overall Status: TODO
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test get methods work on all applicable attributes
+    Tested that all statuses of appliances are printed every hour, and all were printed
+=============================================================================================
 
 4) A user needs to be able to view the config file information before the simulation starts
         Estimate: 1 Hours
         Overall Status: COMPLETE
         Notes:
         Tested printing all metrics and worked correctly
+=============================================================================================
 
 5) A user needs to track the amount of sunlight hitting the house over the day
     Estimate: 2 Hours
-    Overall Status: TODO
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test sunlight is tracked correctly throughout the day
+    Tested that printouts every hour show the current sunlight, and it printed correctly
+=============================================================================================
 
 6) A user needs to be able to be notified of threats and hazards that occur randomly to make the house safe
     Estimate: 4 Hours
     Overall Status: TODO
     Notes:
     TODO - Test that the user is notified of random events that occur during the day
+=============================================================================================
 
+7) A user need to be able to change how often a printout of all statuses occurs
+    Estimate: 2 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test that changing the value in the config file changes how often a printout occurs
+
+=========================================
 =========================================
 =========================================
 
@@ -44,12 +57,14 @@ SPIKE USER STORIES:
     Overall Status: TODO
     Notes:
     TODO - Test output is displayed correctly when relevant input is entered regarding leaving/entering rooms
+=============================================================================================
 
 2) A user needs to load settings from a file in order to load settings for the smart house
     Estimate: 5 Hours
     Overall Status: COMPLETE
     Notes:
     Different user inputs were tested in the file, all of which resulted in no errors
+=============================================================================================
 
 3) A user needs to be notified of events triggering based on environmental conditions that are met to make the house efficient
     Estimate: 1 Day
@@ -63,6 +78,7 @@ SPIKE USER STORIES:
     TODO - Test ceiling fans are only on between 20-27 degrees
     TODO - Test Garage door is down if it starts raining
     TODO - Test if sprinkler system comes on when moisture in soil drops below threshold
+=============================================================================================
 
 4) A user needs to be notified of events triggering based on household activities/rules that are conducted to make the house work properly
     Estimate: 5 Hours
