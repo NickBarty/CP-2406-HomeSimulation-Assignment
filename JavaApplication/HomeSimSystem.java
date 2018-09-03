@@ -39,6 +39,56 @@ public class HomeSimSystem {
     }
 
     public static void startSimulation(int startTime, int endTime) {
+        //Generate objects
+        //Manual creation until creation from csv is implemented
+
+        //Room Creation
+        Room livingRoom = new Room("Living Room");
+        Room bedRoom = new Room("Bed Room");
+        Room bedRoom2 = new Room("Bed Room 2");
+        Room kitchen = new Room("Kitchen");
+        Room garage = new Room("Garage");
+        Room garden = new Room("Garden");
+
+        //Fixture Creation
+        Fixtures light = new Fixtures("Light");
+        Fixtures aircon = new Fixtures("Aircon");
+        Fixtures fan = new Fixtures("Fan");
+
+        WaterFixtures sprinklers = new WaterFixtures("Sprinklers");
+
+        //Appliance Creation
+        Appliances tv = new Appliances("TV");
+        Appliances microwave = new Appliances("Microwave");
+        Appliances oven = new Appliances("Oven");
+        Appliances car = new Appliances("Car");
+
+        WaterAppliances jug = new WaterAppliances("Jug");
+        WaterAppliances coffeeMachine = new WaterAppliances("Coffee Machine");
+
+        //Assign Objects to rooms
+        livingRoom.addFixture(light, aircon, fan);
+        livingRoom.addAppliance(tv);
+        bedRoom.addFixture(light, aircon, fan);
+        bedRoom2.addFixture(light, fan);
+        kitchen.addFixture(light);
+        kitchen.addAppliance(microwave, jug, coffeeMachine, oven);
+        garage.addFixture(light);
+        garage.addAppliance(car);
+        garden.addFixture(light, sprinklers);
+
+        //Tests
+//        livingRoom.displayObjects();
+//        System.out.println();
+//        bedRoom.displayObjects();
+//        System.out.println();
+//        bedRoom2.displayObjects();
+//        System.out.println();
+//        kitchen.displayObjects();
+//        System.out.println();
+//        garage.displayObjects();
+//        System.out.println();
+//        garden.displayObjects();
 
         //Get config variables
         List options = loadConfigFile();

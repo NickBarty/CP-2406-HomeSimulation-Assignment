@@ -1,3 +1,5 @@
+import java.util.List;
+
 /*
 Provides getters and setters for House variables
 */
@@ -5,10 +7,21 @@ public class House {
     private int minTemp;
     private int maxTemp;
     private int currentTemp;
-    private int minSunlight = 0;
-    private int maxSunlight = 100;
+    private int minSunlight;
+    private int maxSunlight;
     private int currentSunlight;
     private int soilMoisture;
+//    private Room kitchen = new Room("kitchen");
+
+    public House(int minTemp, int maxTemp, int currentTemp, int minSunlight, int maxSunlight, int currentSunlight, int soilMoisture) {
+        this.minTemp = minTemp;
+        this.maxTemp = maxTemp;
+        this.currentTemp = currentTemp;
+        this.minSunlight = minSunlight;
+        this.maxSunlight = maxSunlight;
+        this.currentSunlight = currentSunlight;
+        this.soilMoisture = soilMoisture;
+    }
 
     public int getMinTemp() {
         return minTemp;
