@@ -26,49 +26,18 @@ public class Room {
         fixtureObjects.add(obj);
     }
 
-    public void addFixture(Object obj1, Object obj2) {
-        fixtureObjects.add(obj1);
-        fixtureObjects.add(obj2);
-    }
-
-    public void addFixture(Object obj1, Object obj2, Object obj3) {
-        fixtureObjects.add(obj1);
-        fixtureObjects.add(obj2);
-        fixtureObjects.add(obj3);
-    }
-
     public void addAppliance(Object obj){
         applianceObjects.add(obj);
     }
 
-    public void addAppliance(Object obj1, Object obj2){
-        applianceObjects.add(obj1);
-        applianceObjects.add(obj2);
-    }
-
-    public void addAppliance(Object obj1, Object obj2, Object obj3){
-        applianceObjects.add(obj1);
-        applianceObjects.add(obj2);
-        applianceObjects.add(obj3);
-    }
-
-    public void addAppliance(Object obj1, Object obj2, Object obj3, Object obj4){
-        applianceObjects.add(obj1);
-        applianceObjects.add(obj2);
-        applianceObjects.add(obj3);
-        applianceObjects.add(obj4);
-
-    }
 
     public void displayObjects() {
         System.out.println(this.currentRoom + ":");
         System.out.println("\tFixtures:");
-        for (int i = 0; i < fixtureObjects.size(); ++i)
-            System.out.println("\t" + fixtureObjects.get(i));
+        for (Object fixtureObject : fixtureObjects) System.out.println("\t" + fixtureObject);
         if (applianceObjects.size() == 0)
             System.out.println("No Appliances in " + this.currentRoom);
         else System.out.println("\tAppliances:");
-        for (int i = 0; i < applianceObjects.size(); ++i)
-            System.out.println("\t" + applianceObjects.get(i));
+        for (Object applianceObject : applianceObjects) System.out.println("\t" + applianceObject);
     }
 }

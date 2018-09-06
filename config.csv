@@ -1,16 +1,27 @@
-maxTemperature,35
-startTemp,25
-minTemperature,10
-simSpeed,100
-startMoisture,75
-livingRoom,Fixtures,light,aircon,fan
-livingRoom,Appliances,light,aircon,fan
-bedRoom,Fixtures,light,fan
-bedRoomTwo,Fixtures,light,fan
-kitchen,Fixtures,light
-kitchen,Appliances,microwave,oven
-kitchen,WaterAppliances,jug,coffeeMachine
-garage,Fixtures,light
-garage,Appliances,car
-garden,Fixtures,light
-garden,WaterFixtures,sprinklers
+ConfigValue,minTemperature,15
+ConfigValue,maxTemperature,35
+ConfigValue,startTemp,15
+ConfigValue,startSunlight,0
+ConfigValue,startMoisture,75
+ConfigValue,simSpeed,5
+
+Fixture,Light,1,Living Room
+Fixture,Aircon,15,Master Bedroom
+Fixture,Fan,1.5,Spare Bedroom
+
+WaterFixture,Sprinklers,0,2.5,Garden
+
+Appliance,TV,4,LivingRoom
+Appliance,Microwave,14,Kitchen
+Appliance,Oven,50,Kitchen
+Appliance,Car,0,Garage
+
+WaterAppliance,Jug,30,0.5,Kitchen
+WaterAppliance,Coffee Machine,10,0.3,Kitchen
+
+Room,Living Room
+Room,Master Bedroom
+Room,Spare Bedroom
+Room,Kitchen
+Room,Garage
+Room,Garden

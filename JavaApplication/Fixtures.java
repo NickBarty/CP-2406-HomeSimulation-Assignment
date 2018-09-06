@@ -3,23 +3,33 @@ Provides getters and setters for Fixtures variables
 */
 public class Fixtures{
     private String name;
+    private String room;
     private boolean isOn;
-    private int autoOffTime;
-    private int electricityUsage;
+    private int onDuration;
+    private double wattsPerMin;
 
-    public Fixtures(String name) {
+    public Fixtures(String name, double wattsPerMin, String room) {
         this.name = name;
         this.isOn = false;
-        this.autoOffTime = 0;
-        this.electricityUsage = 0;
+        this.onDuration = 0;
+        this.wattsPerMin = wattsPerMin;
+        this.room = room;
     }
 
-    public int getElectricityUsage() {
-        return electricityUsage;
+    public double getWattsPerMin() {
+        return wattsPerMin;
     }
 
-    public void setElectricityUsage(int electricityUsage) {
-        this.electricityUsage = electricityUsage;
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public void setWattsPerMin(int wattsPerMin) {
+        this.wattsPerMin = wattsPerMin;
     }
 
     public boolean getIsOn() {
@@ -30,16 +40,16 @@ public class Fixtures{
         this.isOn = isOn;
     }
 
-    public int getAutoOffTime() {
-        return autoOffTime;
+    public int getOnDuration() {
+        return onDuration;
     }
 
-    public void setAutoOffTime(int autoOffTime) {
-        this.autoOffTime = autoOffTime;
+    public void setOnDuration(int onDuration) {
+        this.onDuration = onDuration;
     }
 
     @Override
     public String toString(){
-        return "\t" + this.name + ": \t(On: " + this.isOn + ") (Auto Off Delay: " + this.autoOffTime + ") (Electricity Usage: " + this.electricityUsage +")";
+        return "\t" + this.name + ":\tRoom = " + this.room +" | On = " + this.isOn + " | Total On Duration (Mins) = " + this.onDuration + " | Watts Per Minute = " + this.wattsPerMin;
     }
 }

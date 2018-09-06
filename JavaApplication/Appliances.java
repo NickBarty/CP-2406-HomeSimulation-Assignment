@@ -3,15 +3,25 @@ Provides getters and setters for Appliances variables
 */
 public class Appliances {
     private String name;
+    private String room;
     private boolean isOn;
-    private int electricityUsage;
+    private double wattsPerMin;
     private int onDuration;
 
-    public Appliances(String name) {
+    public Appliances(String name, double wattsPerMin, String room) {
         this.name = name;
+        this.room = room;
         this.isOn = false;
-        this.electricityUsage = 0;
+        this.wattsPerMin = wattsPerMin;
         this.onDuration = 0;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public boolean getIsOn() {
@@ -22,12 +32,12 @@ public class Appliances {
         this.isOn = isOn;
     }
 
-    public int getElectricityUsage() {
-        return electricityUsage;
+    public double getWattsPerMin() {
+        return wattsPerMin;
     }
 
-    public void setElectricityUsage(int electricityUsage) {
-        this.electricityUsage = electricityUsage;
+    public void setWattsPerMin(int wattsPerMin) {
+        this.wattsPerMin = wattsPerMin;
     }
 
     public int getOnDuration() {
@@ -40,6 +50,6 @@ public class Appliances {
 
     @Override
     public String toString(){
-        return "\t" +this.name + ": \t(On: " + this.isOn + ") (On Time Left: " + this.onDuration + ") (Electricity Usage: " + this.electricityUsage + ")";
+        return "\t" + this.name + ":\tRoom = " + this.room + " | On = " + this.isOn + " | Total On Duration (Mins) = " + this.onDuration + " | Watts Per Minute = " + this.wattsPerMin;
     }
 }
