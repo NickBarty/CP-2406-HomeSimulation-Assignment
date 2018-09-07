@@ -2,42 +2,37 @@
 Provides getters and setters for Appliances variables
 */
 public class Appliances {
-    private String name;
+    //Appliance Variables
+    private String applianceName;
     private String room;
     private boolean isOn;
-    private double wattsPerMin;
     private int onDuration;
+    private double wattsPerMin;
 
-    public Appliances(String name, double wattsPerMin, String room) {
-        this.name = name;
+    //Appliance Constructor
+    Appliances(String name, double wattsPerMin, String room) {
+        this.applianceName = name;
         this.room = room;
         this.isOn = false;
-        this.wattsPerMin = wattsPerMin;
         this.onDuration = 0;
+        this.wattsPerMin = wattsPerMin;
     }
 
-    public String getRoom() {
+    //Getters and Setters
+    String getApplianceName() {
+        return applianceName;
+    }
+
+    String getRoom() {
         return room;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
-    public boolean getIsOn() {
+    boolean getIsOn() {
         return isOn;
     }
 
-    public void setIsOn(boolean isOn) {
+    void setIsOn(boolean isOn) {
         this.isOn = isOn;
-    }
-
-    public double getWattsPerMin() {
-        return wattsPerMin;
-    }
-
-    public void setWattsPerMin(int wattsPerMin) {
-        this.wattsPerMin = wattsPerMin;
     }
 
     public int getOnDuration() {
@@ -48,8 +43,14 @@ public class Appliances {
         this.onDuration = onDuration;
     }
 
+    double getWattsPerMin() {
+        return wattsPerMin;
+    }
+
+    //Override toString to print object attributes
     @Override
-    public String toString(){
-        return "\t" + this.name + ":\tRoom = " + this.room + " | On = " + this.isOn + " | Total On Duration (Mins) = " + this.onDuration + " | Watts Per Minute = " + this.wattsPerMin;
+    public String toString() {
+        return "\t" + this.applianceName + ":\tRoom = " + this.room + " | On = " + this.isOn + " | Total On Duration (Mins) = " +
+                this.onDuration + " | Watts used = " + this.wattsPerMin * this.onDuration;
     }
 }

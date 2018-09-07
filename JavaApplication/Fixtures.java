@@ -1,42 +1,37 @@
 /*
 Provides getters and setters for Fixtures variables
 */
-public class Fixtures{
-    private String name;
+public class Fixtures {
+    //Fixture Variables
+    private String fixtureName;
     private String room;
     private boolean isOn;
     private int onDuration;
     private double wattsPerMin;
 
-    public Fixtures(String name, double wattsPerMin, String room) {
-        this.name = name;
+    //Fixtures Constructor
+    Fixtures(String name, double wattsPerMin, String room) {
+        this.fixtureName = name;
+        this.room = room;
         this.isOn = false;
         this.onDuration = 0;
         this.wattsPerMin = wattsPerMin;
-        this.room = room;
     }
 
-    public double getWattsPerMin() {
-        return wattsPerMin;
+    //Getters and Setters
+    String getFixtureName() {
+        return fixtureName;
     }
 
-    public String getRoom() {
+    String getRoom() {
         return room;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
-    public void setWattsPerMin(int wattsPerMin) {
-        this.wattsPerMin = wattsPerMin;
-    }
-
-    public boolean getIsOn() {
+    boolean getIsOn() {
         return isOn;
     }
 
-    public void setIsOn(boolean isOn) {
+    void setIsOn(boolean isOn) {
         this.isOn = isOn;
     }
 
@@ -48,8 +43,14 @@ public class Fixtures{
         this.onDuration = onDuration;
     }
 
+    double getWattsPerMin() {
+        return wattsPerMin;
+    }
+
+    //Override toString to print object attributes
     @Override
-    public String toString(){
-        return "\t" + this.name + ":\tRoom = " + this.room +" | On = " + this.isOn + " | Total On Duration (Mins) = " + this.onDuration + " | Watts Per Minute = " + this.wattsPerMin;
+    public String toString() {
+        return "\t" + this.fixtureName + ":\tRoom = " + this.room + " | On = " + this.isOn + " | Total On Duration (Mins) = " +
+                this.onDuration + " | Watts used = " + this.wattsPerMin * this.onDuration;
     }
 }

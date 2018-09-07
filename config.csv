@@ -1,23 +1,55 @@
 ConfigValue,minTemperature,15
 ConfigValue,maxTemperature,35
-ConfigValue,startTemp,15
+ConfigValue,startTemperature,15
 ConfigValue,startSunlight,0
-ConfigValue,startMoisture,75
-ConfigValue,simSpeed,5
+ConfigValue,startMoisture,35
+ConfigValue,tempChangeDelayTime,25
+ConfigValue,soilChangeDelayTime,10
+ConfigValue,printOnOff,1
+ConfigValue,miliSecondsPerMin (simSpeed),50
+ConfigValue,minsBetweenUpdate,1
+ConfigValue,minsBetweenPrint,60
+ConfigValue,randomEventChance,1
+ConfigValue,rainMinLength,30
+ConfigValue,rainMaxLength,120
+ConfigValue,centsPerKw,30
+
+
+TriggerValue,minSunlightWhenRaining,30
+TriggerValue,fansOnAboveTemp,20
+TriggerValue,fansOnBelowTemp,28
+TriggerValue,airconsOnAboveTemp,28
+TriggerValue,lightsOnBelowSunlight,20
+TriggerValue,updateSoilMoistureRaining,3
+TriggerValue,reduceMoistureAboveSunlight,40
+
+
 
 Fixture,Light,1,Living Room
+Fixture,Aircon,15,Living Room
+Fixture,Fan,1.5,Living Room
+Appliance,TV,4,Living Room
+
+Fixture,Light,1,Master Bedroom
 Fixture,Aircon,15,Master Bedroom
+Fixture,Fan,1.5,Master Bedroom
+
+Fixture,Light,1,Spare Bedroom
 Fixture,Fan,1.5,Spare Bedroom
 
-WaterFixture,Sprinklers,0,2.5,Garden
-
-Appliance,TV,4,LivingRoom
+Fixture,Light,1,Kitchen
 Appliance,Microwave,14,Kitchen
 Appliance,Oven,50,Kitchen
-Appliance,Car,0,Garage
-
 WaterAppliance,Jug,30,0.5,Kitchen
 WaterAppliance,Coffee Machine,10,0.3,Kitchen
+
+Fixture,Light,1,Garage
+Fixture,Garage Door,70,Garage
+Appliance,Car,0,Garage
+
+Fixture,Light,1,Garden
+WaterFixture,Sprinklers,0,1.5,Garden
+
 
 Room,Living Room
 Room,Master Bedroom
