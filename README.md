@@ -11,23 +11,23 @@ This is the CP2406 home automation simulator project codebase.
 8. (DONE) Refine application once all user stories have been implemented
 
 
-#How To Use csv File
+# How To Use csv File
 The following details what is allowed in each field of  the 'config.csv' file
 - **ObjectType** can be: Fixture / Appliance / WaterFixture / WaterAppliance
 - **Name** can be: Any words
 - **ElectricityUsePerMinute** can be: Any Integer
 - **LitersUsedPerMin** can be: Any floating point number
 - **Location** can be: Any Room (If this doesn't match any created rooms the object will not be created)
-####Creating A Room:
+#### Creating A Room:
 - Room, roomName
 - E.g: Room,Living Room
-####Creating Fixtures and Appliances:
+#### Creating Fixtures and Appliances:
 - *ObjectType, Name, ElectricityUsePerMinute, Location
 - E.g: Fixture,Light,1,Living Room
-####Creating WaterFixtures and WaterAppliances:
+#### Creating WaterFixtures and WaterAppliances:
 - ObjectType, Name, ElectricityUsePerMinute, LitersUsedPerMinute, Location
 - E.g: <font color="red">WaterFixture,Sprinklers,0,1.5,Garden
-##Config Values Information 
+## Config Values Information 
 - **minTemperature**: Set minimum temperature simulator will naturally get to
 - **maxTemperature**: Set maximum temperature simulator will naturally get to
 - **startTemperature**: Set starting temperature of simulator
@@ -43,7 +43,7 @@ The following details what is allowed in each field of  the 'config.csv' file
 - **rainMinLength**: Set the minimum number of simulated minutes to rain for if raining occurs
 - **rainMaxLength**: Set the maximum number of simulated minutes to rain for if raining occurs
 - **centsPerKw**: Set the number of cents per kW to be used to calculate cost of electricity for the day
-##Trigger Values Information
+## Trigger Values Information
 - **minSunlightWhenRaining**: Set how low the sunlight percent can get while raining
 - **fansOnAboveTemp**: Set what temperature Fans turn on above
 - **fansOnBelowTemp**: Set what temperature Fans turn on below
