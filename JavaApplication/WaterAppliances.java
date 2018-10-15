@@ -36,6 +36,6 @@ public class WaterAppliances extends Appliances {
     public String toString() {
         return "\t" + super.getApplianceName() + ":\tRoom = " + super.getRoom() + " | On = " + super.getIsOn() +
                 " | Total On Duration (Mins) = " + this.onDuration + " | Watts used = " + this.getOnDuration() * super.getWattsPerMin() +
-                " | Liters Of Water used = " + this.getLitersPerMin() * this.onDuration + "\n";
+                " | Liters Of Water used = " + this.getLitersPerMin() * this.onDuration;
     }
 }

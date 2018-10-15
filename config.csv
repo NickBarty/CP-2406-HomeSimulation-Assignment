@@ -5,8 +5,8 @@ ConfigValue,startSunlight,0
 ConfigValue,startMoisture,35
 ConfigValue,tempChangeDelayTime,25
 ConfigValue,soilChangeDelayTime,10
-ConfigValue,printOnOff,1
-ConfigValue,miliSecondsPerMin (simSpeed),50
+ConfigValue,printOnOff,0
+ConfigValue,miliSecondsPerMin (simSpeed),8
 ConfigValue,minsBetweenUpdate,1
 ConfigValue,minsBetweenPrint,60
 ConfigValue,randomEventChance,1

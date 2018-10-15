@@ -46,12 +46,37 @@ USER STORIES:
     Overall Status: COMPLETE
     Notes:
     Successfully tested that changing the value in the config file changed how often a printout occurs
+=============================================================================================
 
 8) A user needs to be able to select if they want printouts or not
     Estimate: 1 Hour
     Overall Status: COMPLETE
     Notes:
     Successfully tested that changing the value from 1 to 0 in the config file changed if printouts occur
+=============================================================================================
+
+9) A user needs to be able to see all of the metrics of the house in a GUI format
+    Estimate: 5 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test GUI component for sunlight percentage
+    TODO - Test GUI component for soil moisture percentage
+    TODO - Test GUI component for temperature
+=============================================================================================
+
+10) A user needs to be able to see which rooms are apart of the house in a GUI format
+    Estimate: 3 Hours
+    Overall Status:
+    Notes:
+    TODO - Test all rooms appear in the GUI
+=============================================================================================
+
+11) A user needs to be able to see the status of all the fixtures & appliances in all rooms in a GUI format
+    Estimate: 5 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test all appliances and fixtures appear in the rooms GUI component
+
 
 =========================================
 =========================================
@@ -90,3 +115,20 @@ SPIKE USER STORIES:
     Notes:
     Successfully tested room lights only turn on when sunlight is below a threshold and between 6-11 PM
     Successfully tested Sunlight is reduced by the configured amount when raining
+=============================================================================================
+
+5) A user needs to be able to Start, Stop and pause the program on demand
+    Estimate: 5 hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test that stop closes the application
+    TODO - Test that pausing the program stops the program in place and allows the user to start the program again at any time
+=============================================================================================
+
+6) A user needs the application to update the house metrics, appliance and fixture status on the GUI as the application runs
+    Estimate: 6 Hours
+    Overall Status: TODO
+    Notes:
+    TODO - Test house metrics update
+    TODO - Test the status of all appliances update
+    TODO - Test the status of all fixtures update

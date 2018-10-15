@@ -32,19 +32,21 @@ public class Room {
     void displayObjects() {
         System.out.println(this.currentRoom + ":");
         if (fixtureObjects.size() == 0) {
-            System.out.println("No Fixtures in " + this.currentRoom + "\n");
+            System.out.println("No Fixtures in " + this.currentRoom);
         } else {
             System.out.println("\tFixtures:");
             for (Object fixtureObject : fixtureObjects) {
                 System.out.println("\t" + fixtureObject);
             }
+            System.out.println();
         }
 
         if (applianceObjects.size() == 0) {
-            System.out.println("No Appliances in " + this.currentRoom + "\n");
+            System.out.println("No Appliances in " + this.currentRoom);
         } else System.out.println("\tAppliances:");
         for (Object applianceObject : applianceObjects) {
             System.out.println("\t" + applianceObject);
         }
+        System.out.println();
     }
 }

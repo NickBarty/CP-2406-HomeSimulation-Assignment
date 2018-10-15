@@ -113,78 +113,8 @@ public class HomeSimSystem {
                     ++startHour;
                 }
 
-                //Set sunlight based on current time and a config value
-                setSunlight(startTime, house);
-
-                //Set soil moisture based on a config value and a trigger value
-                if (startTime % configValues.get(6) == 0) {
-                    setSoilMoisture(house, triggerValues.get(6));
-                }
-
-                //Set temperature every specified minutes based on current time
-                if (startTime % configValues.get(5) == 0) {
-                    setTemperature(startTime, house);
-                }
-
-                //Trigger random events based on current time and a config value
-                triggerRandomEvents(startTime, house, configValues.get(11), configValues.get(12), configValues.get(13));
-
-                //Stop Raining if its been raining for longer than set rain duration
-                if (house.isRaining() && startTime > (house.getRainStart() + house.getRainEnd())) {
-                    house.setRaining(false);
-                    System.out.println("\nIt has stopped raining\n");
-                }
-
-                //Increase soil moisture by 1 when raining every number of specified minutes
-                if (house.isRaining() && house.getSoilMoisture() < 100 && startTime % triggerValues.get(5) == 0) {
-                    house.setSoilMoisture(house.getSoilMoisture() + 1);
-                }
-
-                //Reduce sunlight during rain, down to specified light level
-                if (house.isRaining() && house.getCurrentSunlight() > triggerValues.get(0)) {
-                    house.setCurrentSunlight(house.getCurrentSunlight() - 2);
-                }
-
-                //Turn sprinklers on if sunlight isn't too high, it't not raining and soil moisture is not max
-                if (!house.isRaining() && house.getCurrentSunlight() < house.getMAX_SUNLIGHT() && house.getSoilMoisture() < 100) {
-                    for (WaterFixtures waterFixtures1 : waterFixtures) {
-                        if (waterFixtures1.toString().contains("Sprinklers")) {
-                            waterFixtures1.setIsOn(true);
-                            waterFixtures1.setOnDuration(waterFixtures1.getOnDuration() + 1);
-                            house.setSoilMoisture(house.getSoilMoisture() + 1);
-                        }
-                    }
-                }
-
-                //Turn fans on between specified degrees
-                if (house.getCurrentTemp() > triggerValues.get(1) && house.getCurrentTemp() < triggerValues.get(2)) {
-                    for (Fixtures fixture : fixtures) {
-                        if (fixture.toString().contains("Fan")) {
-                            fixture.setIsOn(true);
-                            fixture.setOnDuration(fixture.getOnDuration() + 1);
-                        }
-                    }
-                }
-
-                //Turn aircon on based on a config value
-                if (house.getCurrentTemp() > triggerValues.get(3)) {
-                    for (Fixtures fixture : fixtures) {
-                        if (fixture.toString().contains("Aircon")) {
-                            fixture.setIsOn(true);
-                            fixture.setOnDuration(fixture.getOnDuration() + 1);
-                        }
-                    }
-                }
-
-                //Turn lights on when below trigger specified sunlight
-                if (house.getCurrentSunlight() < triggerValues.get(4)) {
-                    for (Fixtures fixture : fixtures) {
-                        if (fixture.toString().contains("Light")) {
-                            fixture.setIsOn(true);
-                            fixture.setOnDuration(fixture.getOnDuration() + 1);
-                        }
-                    }
-                }
+                //Check all of the house condition statements and change any that need to be changed
+                checkConditions(startTime, fixtures, waterFixtures, configValues, triggerValues, house);
 
                 /*
                 =========================
@@ -280,6 +210,81 @@ public class HomeSimSystem {
         displayTotalRainDuration(house);
     }
 
+    private static void checkConditions(int startTime, ArrayList<Fixtures> fixtures, ArrayList<WaterFixtures> waterFixtures, ArrayList<Integer> configValues, ArrayList<Integer> triggerValues, House house) {
+        //Set sunlight based on current house values
+        setSunlight(startTime, house);
+
+        //Set soil moisture every specified minutes (from config file) if sunlight is below specified value
+        if (startTime % configValues.get(6) == 0) {
+            setSoilMoisture(house, triggerValues.get(6));
+        }
+
+        //Set temperature every specified minutes (from config file) based on current time
+        if (startTime % configValues.get(5) == 0) {
+            setTemperature(startTime, house);
+        }
+
+        //Trigger random events based on current time and a percent chance from the config file
+        triggerRandomEvents(startTime, house, configValues.get(11), configValues.get(12), configValues.get(13));
+
+        //Stop Raining if its been raining for longer than set rain duration
+        if (house.isRaining() && startTime > (house.getRainStart() + house.getRainEnd())) {
+            house.setRaining(false);
+            System.out.println("\nIt has stopped raining\n");
+        }
+
+        //Increase soil moisture by 1 when raining every number of specified (trigger value) minutes
+        if (house.isRaining() && house.getSoilMoisture() < 100 && startTime % triggerValues.get(5) == 0) {
+            house.setSoilMoisture(house.getSoilMoisture() + 1);
+        }
+
+        //Reduce sunlight during rain, down to specified (trigger value) light level
+        if (house.isRaining() && house.getCurrentSunlight() > triggerValues.get(0)) {
+            house.setCurrentSunlight(house.getCurrentSunlight() - 2);
+        }
+
+        //Turn sprinklers on if sunlight isn't too high, it't not raining and soil moisture is not max
+        if (!house.isRaining() && house.getCurrentSunlight() < house.getMAX_SUNLIGHT() && house.getSoilMoisture() < 100) {
+            for (WaterFixtures waterFixtures1 : waterFixtures) {
+                if (waterFixtures1.toString().contains("Sprinklers")) {
+                    waterFixtures1.setIsOn(true);
+                    waterFixtures1.setOnDuration(waterFixtures1.getOnDuration() + 1);
+                    house.setSoilMoisture(house.getSoilMoisture() + 1);
+                }
+            }
+        }
+
+        //Turn fans on between specified trigger values
+        if (house.getCurrentTemp() > triggerValues.get(1) && house.getCurrentTemp() < triggerValues.get(2)) {
+            for (Fixtures fixture : fixtures) {
+                if (fixture.toString().contains("Fan")) {
+                    fixture.setIsOn(true);
+                    fixture.setOnDuration(fixture.getOnDuration() + 1);
+                }
+            }
+        }
+
+        //Turn aircon on above a specified trigger value
+        if (house.getCurrentTemp() > triggerValues.get(3)) {
+            for (Fixtures fixture : fixtures) {
+                if (fixture.toString().contains("Aircon")) {
+                    fixture.setIsOn(true);
+                    fixture.setOnDuration(fixture.getOnDuration() + 1);
+                }
+            }
+        }
+
+        //Turn lights on when below specified trigger sunlight level
+        if (house.getCurrentSunlight() < triggerValues.get(4)) {
+            for (Fixtures fixture : fixtures) {
+                if (fixture.toString().contains("Light")) {
+                    fixture.setIsOn(true);
+                    fixture.setOnDuration(fixture.getOnDuration() + 1);
+                }
+            }
+        }
+    }
+
     //Give all of the rooms in the house their respective appliances/fixtures
     private static void populateRooms(ArrayList<Fixtures> fixtures, ArrayList<WaterFixtures> waterFixtures, ArrayList<Appliances> appliances, ArrayList<WaterAppliances> waterAppliances, ArrayList<Room> rooms) {
         for (Fixtures fixture1 : fixtures) {
@@ -369,7 +374,7 @@ public class HomeSimSystem {
         //If random number less than or is 0.3 attempt to make it rain
         if (randChooseNum <= 0.3) {
             //Start Raining, do events
-            if (!house.isRaining() && randNum <= (randomnessValue / 100.00) - 0.0085) {
+            if (!house.isRaining() && randNum <= (randomnessValue / 100.00) - 0.007) {
                 house.setRaining(true);
                 house.setRainEnd(Math.random() * ((rainMax - rainMin) + 1) + rainMin);
                 house.setRainStart(startTime);
@@ -383,7 +388,7 @@ public class HomeSimSystem {
 
         //If random number is above 0.3 attempt to make a heatwave
         //Heatwave only occurs between 8AM (180) and 5PM (720)
-        if (!house.isRaining() && randChooseNum > 0.3 && startTime >= 180 && startTime <= 720 && randNum <= (randomnessValue / 100.00 - 0.0085)) {
+        if (!house.isRaining() && randChooseNum > 0.3 && startTime >= 180 && startTime <= 720 && randNum <= (randomnessValue / 100.00 - 0.007)) {
             System.out.println("\nA Heat wave has occurred\n");
             house.setCurrentTemp(house.getCurrentTemp() + 10);
         }
