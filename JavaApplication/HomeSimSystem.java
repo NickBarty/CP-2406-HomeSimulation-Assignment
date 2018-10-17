@@ -44,6 +44,8 @@ public class HomeSimSystem {
     //Do anything based on the simulator running
     @SuppressWarnings("SameParameterValue")
     private static void runSimulation(int startTime, int endTime) {
+        SimulatorLayout simFrame = new SimulatorLayout();
+
         //Generate objects
         ArrayList<Fixtures> fixtures = loadFixtures();
         ArrayList<WaterFixtures> waterFixtures = loadWaterFixtures();
@@ -185,6 +187,7 @@ public class HomeSimSystem {
 
                 //Print house metrics based on config for how often to update
                 if (startTime % configValues.get(9) == 0) {
+                    simFrame.sunlightPercentNumber.setText(Integer.toString(house.getCurrentSunlight()) + "%");
                     System.out.printf("\rCurrent Time: %d:%s%d %s | Current Sunlight: %d%% | Current Temperature: %d° | Current Soil Moisture: %d%%",
                             startHour, message, startTime % 60, meridian, house.getCurrentSunlight(), house.getCurrentTemp(), house.getSoilMoisture());
                 }
