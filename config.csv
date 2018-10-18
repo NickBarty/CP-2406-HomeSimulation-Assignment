@@ -6,7 +6,7 @@ ConfigValue,startMoisture,35
 ConfigValue,tempChangeDelayTime,25
 ConfigValue,soilChangeDelayTime,10
 ConfigValue,printOnOff,0
-ConfigValue,miliSecondsPerMin (simSpeed),1000
+ConfigValue,miliSecondsPerMin (simSpeed),100
 ConfigValue,minsBetweenUpdate,1
 ConfigValue,minsBetweenPrint,60
 ConfigValue,randomEventChance,1
@@ -41,7 +41,7 @@ Fixture,Light,1,Kitchen
 Appliance,Microwave,14,Kitchen
 Appliance,Oven,50,Kitchen
 WaterAppliance,Jug,30,0.5,Kitchen
-WaterAppliance,Coffee Machine,10,0.5,Kitchen
+WaterAppliance,Coffee Machine,10,0.3,Kitchen
 
 Fixture,Light,1,Garage
 Fixture,Garage Door,70,Garage

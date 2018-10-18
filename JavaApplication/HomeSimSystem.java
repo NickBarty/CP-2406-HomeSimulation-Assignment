@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.*;
 
@@ -25,8 +26,7 @@ public class HomeSimSystem {
         int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
         simFrame.setLocation(x, y);
-
-        runSimulation(START_TIME,END_TIME);
+        runSimulation(START_TIME, END_TIME);
     }
 
 
@@ -65,7 +65,6 @@ public class HomeSimSystem {
             panel.add(namePanel, BorderLayout.NORTH);
             panel.add(infoPanel, BorderLayout.CENTER);
             infoPanel.setLayout(new GridLayout(0, 1, 10, 5));
-
 
             JLabel roomLabel = new JLabel(" " + roomName.getCurrentRoom() + " ", SwingConstants.CENTER);
             roomLabel.setFont(simFrame.labelFont);
@@ -110,6 +109,7 @@ public class HomeSimSystem {
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             simFrame.add(panel);
         }
+
         //Initialise and set variables used in loop
         String meridian = "AM";
         String message = "0";
@@ -126,7 +126,7 @@ public class HomeSimSystem {
                 startHour, message, startTime % 60, meridian, house.getCurrentSunlight(), house.getCurrentTemp(), house.getSoilMoisture());
         System.out.println();
 
-
+        String msg;
         //Loop until start time is less than the end time
         while (startTime < endTime) {
             try {
@@ -166,29 +166,41 @@ public class HomeSimSystem {
 
                 //Go through each object in the house and set the text of it
                 for (int z = 0; z < applianceLabels.size(); z++) {
-                    applianceLabels.get(z).setText(" Appliance - " + appliances.get(z).getApplianceName() + " | On: " + Boolean.toString(appliances.get(z).getIsOn())
-                            + " | Mins On: " + Integer.toString(appliances.get(z).getOnDuration())
-                            + " | Watts Used: " + Double.toString(appliances.get(z).getWattsPerMin() * appliances.get(z).getOnDuration()) + " ");
+                    msg = String.format(" Appliance - %s | On: %s | Mins On: %s | Watts Used: %.0f ",
+                            appliances.get(z).getApplianceName(),
+                            appliances.get(z).getIsOn(),
+                            appliances.get(z).getOnDuration(),
+                            appliances.get(z).getWattsPerMin() * appliances.get(z).getOnDuration());
+                    applianceLabels.get(z).setText(msg);
                 }
 
                 for (int z = 0; z < waterApplianceLabels.size(); z++) {
-                    waterApplianceLabels.get(z).setText(" Water Appliance - " + waterAppliances.get(z).getApplianceName() + " | On: " + Boolean.toString(waterAppliances.get(z).getIsOn())
-                            + " | Mins On: " + Integer.toString(waterAppliances.get(z).getOnDuration())
-                            + " | Watts Used: " + Double.toString(waterAppliances.get(z).getWattsPerMin() * waterAppliances.get(z).getOnDuration())
-                            + " | Liters Used: " + Double.toString(waterAppliances.get(z).getLitersPerMin() * waterAppliances.get(z).getOnDuration()) + " ");
+                    msg = String.format(" Water Appliance - %s | On: %s | Mins On: %s | Watts Used: %.0f | Liters Used: %.2f ",
+                            waterAppliances.get(z).getApplianceName(),
+                            waterAppliances.get(z).getIsOn(),
+                            waterAppliances.get(z).getOnDuration(),
+                            waterAppliances.get(z).getWattsPerMin() * waterAppliances.get(z).getOnDuration(),
+                            waterAppliances.get(z).getLitersPerMin() * waterAppliances.get(z).getOnDuration());
+                    waterApplianceLabels.get(z).setText(msg);
                 }
 
                 for (int z = 0; z < fixtureLabels.size(); z++) {
-                    fixtureLabels.get(z).setText(" Fixture - " + fixtures.get(z).getFixtureName() + " | On: " + Boolean.toString(fixtures.get(z).getIsOn())
-                            + " | Mins On: " + Integer.toString(fixtures.get(z).getOnDuration())
-                            + " | Watts Used: " + Double.toString(fixtures.get(z).getWattsPerMin() * fixtures.get(z).getOnDuration()) + " ");
+                    msg = String.format(" Fixture - %s | On: %s | Mins On: %s | Watts Used: %.0f ",
+                            fixtures.get(z).getFixtureName(),
+                            fixtures.get(z).getIsOn(),
+                            fixtures.get(z).getOnDuration(),
+                            fixtures.get(z).getWattsPerMin() * fixtures.get(z).getOnDuration());
+                    fixtureLabels.get(z).setText(msg);
                 }
 
                 for (int z = 0; z < waterFixtureLabels.size(); z++) {
-                    waterFixtureLabels.get(z).setText(" Water Fixture - " + waterFixtures.get(z).getFixtureName() + " | On: " + Boolean.toString(waterFixtures.get(z).getIsOn())
-                            + " | Mins On: " + Integer.toString(waterFixtures.get(z).getOnDuration())
-                            + " | Watts Used: " + Double.toString(waterFixtures.get(z).getWattsPerMin() * waterFixtures.get(z).getOnDuration())
-                            + " | Liters Used: " + Double.toString(waterFixtures.get(z).getLitersPerMin() * waterFixtures.get(z).getOnDuration()) + " ");
+                    msg = String.format(" Water Fixture - %s | On: %s | Mins On: %s | Watts Used: %.0f | Liters Used: %.2f ",
+                            waterFixtures.get(z).getFixtureName(),
+                            waterFixtures.get(z).getIsOn(),
+                            waterFixtures.get(z).getOnDuration(),
+                            waterFixtures.get(z).getWattsPerMin() * waterFixtures.get(z).getOnDuration(),
+                            waterFixtures.get(z).getLitersPerMin() * waterFixtures.get(z).getOnDuration());
+                    waterFixtureLabels.get(z).setText(msg);
                 }
 
                 /*
@@ -263,8 +275,7 @@ public class HomeSimSystem {
                     simFrame.sunlightNumber.setText(Integer.toString(house.getCurrentSunlight()) + "%");
                     simFrame.temperatureNumber.setText(Integer.toString(house.getCurrentTemp()) + "°");
                     simFrame.soilMoistureNumber.setText(Integer.toString(house.getSoilMoisture()) + "%");
-                    System.out.printf("\rCurrent Time: %d:%s%d %s | Current Sunlight: %d%% | Current Temperature: %d° | Current Soil Moisture: %d%%",
-                            startHour, message, startTime % 60, meridian, house.getCurrentSunlight(), house.getCurrentTemp(), house.getSoilMoisture());
+                    simFrame.timeNumber.setText(startHour + ":" + message + startTime % 60 + " " + meridian);
                 }
 
                 //Set colours for the information metrics
@@ -278,7 +289,9 @@ public class HomeSimSystem {
                 }
                 simFrame.soilMoisturePanel.setBackground(new Color(255 - house.getSoilMoisture() * 2, 255, 255 - house.getSoilMoisture() * 2));
 
-                //Pause program for a specified amount of time
+                displayElectricityCost(fixtures, waterFixtures, appliances, waterAppliances, configValues.get(14));
+                displayWaterUsage(waterFixtures, waterAppliances);
+                //Delay program for a specified amount of time
                 Thread.sleep(simSpeed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -295,8 +308,6 @@ public class HomeSimSystem {
         }
 
         //Display the total electricity cost, water usage and total rain duration for the simulated day
-        displayElectricityCost(fixtures, waterFixtures, appliances, waterAppliances, configValues.get(14));
-        displayWaterUsage(waterFixtures, waterAppliances);
         displayTotalRainDuration(house);
     }
 
@@ -514,7 +525,8 @@ public class HomeSimSystem {
         //Calculate kW value and cost, print values
         double totalKw = totalWatts / 1000.00;
         cost = totalKw * costPerKw;
-        System.out.printf("Total cost of electricity: %.2fkW at $%.2f per kW = $%.2f \n", totalKw, costPerKw, cost);
+        String message = String.format(" Used = %.2f Kw | Cost = $%.2f", totalKw, cost);
+        simFrame.electricityNumber.setText(message);
     }
 
     //Display total water usage for the day
@@ -532,7 +544,9 @@ public class HomeSimSystem {
         }
 
         //Print value of total liters used for the day
-        System.out.println("Total Liters Of Water Used: " + totalWaterUsage);
+        String message = String.format(" Water used in L = %.2f ", totalWaterUsage);
+        simFrame.waterNumber.setText(message);
+//        System.out.println("Total Liters Of Water Used: " + totalWaterUsage);
     }
 
     //Display total duration of rain for day
