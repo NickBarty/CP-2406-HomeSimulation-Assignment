@@ -7,7 +7,7 @@ This is the CP2406 home automation simulator project codebase.
 4. (DONE) Establish initial UML Class diagram
 5. (DONE) Establish classes in intellij
 6. (DONE) Set up classes based on the UML class diagram
-7. (DONE) Implement user stories one at a time (11/17 Complete) (6/17 Incomplete / Buggy)
+7. (DONE) Implement user stories one at a time (12/17 Complete) (5/17 Incomplete / Buggy)
 8. (DONE) Refine application once all user stories have been implemented
 
 

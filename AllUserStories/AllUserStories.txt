@@ -57,11 +57,11 @@ USER STORIES:
 
 9) A user needs to be able to see all of the metrics of the house in a GUI format
     Estimate: 5 Hours
-    Overall Status: TODO
+    Overall Status: Done
     Notes:
-    TODO - Test GUI component for sunlight percentage
-    TODO - Test GUI component for soil moisture percentage
-    TODO - Test GUI component for temperature
+    GUI component for sunlight percentage successfully tested
+    GUI component for soil moisture percentage successfully tested
+    GUI component for temperature successfully tested
 =============================================================================================
 
 10) A user needs to be able to see which rooms are apart of the house in a GUI format

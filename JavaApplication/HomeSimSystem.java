@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
@@ -44,7 +45,12 @@ public class HomeSimSystem {
     //Do anything based on the simulator running
     @SuppressWarnings("SameParameterValue")
     private static void runSimulation(int startTime, int endTime) {
+        //Create simulator frame and move it to center of screen
         SimulatorLayout simFrame = new SimulatorLayout();
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
+        simFrame.setLocation(x, y);
 
         //Generate objects
         ArrayList<Fixtures> fixtures = loadFixtures();
@@ -187,10 +193,23 @@ public class HomeSimSystem {
 
                 //Print house metrics based on config for how often to update
                 if (startTime % configValues.get(9) == 0) {
-                    simFrame.sunlightPercentNumber.setText(Integer.toString(house.getCurrentSunlight()) + "%");
+                    simFrame.sunlightNumber.setText(Integer.toString(house.getCurrentSunlight()) + "%");
+                    simFrame.temperatureNumber.setText(Integer.toString(house.getCurrentTemp()) + "°");
+                    simFrame.soilMoistureNumber.setText(Integer.toString(house.getSoilMoisture()) + "%");
                     System.out.printf("\rCurrent Time: %d:%s%d %s | Current Sunlight: %d%% | Current Temperature: %d° | Current Soil Moisture: %d%%",
                             startHour, message, startTime % 60, meridian, house.getCurrentSunlight(), house.getCurrentTemp(), house.getSoilMoisture());
                 }
+
+                //Set colours for the information metrics
+                simFrame.sunlightPanel.setBackground(new Color(225,225, 225 - house.getCurrentSunlight() * 2));
+                if (house.getCurrentTemp() <= 25){
+                    simFrame.temperaturePanel.setBackground(new Color(0, 125 + house.getCurrentTemp() *4, 255));
+                }
+
+                if (house.getCurrentTemp() > 25){
+                    simFrame.temperaturePanel.setBackground(new Color(255, 255 - house.getCurrentTemp() * 4, 0));
+                }
+                simFrame.soilMoisturePanel.setBackground(new Color(255 - house.getSoilMoisture() * 2, 255, 255 - house.getSoilMoisture() * 2));
 
                 //Pause program for a specified amount of time
                 Thread.sleep(simSpeed);
