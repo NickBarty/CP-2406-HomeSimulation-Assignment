@@ -14,6 +14,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     JPanel electricityPanel = new JPanel(new BorderLayout(5, 5));
     JPanel waterPanel = new JPanel(new BorderLayout(5, 5));
     JPanel rainTimePanel = new JPanel(new BorderLayout(5,5));
+    JPanel eventAlertPanel = new JPanel(new BorderLayout(5,5));
 
     JMenuBar mainBar = new JMenuBar();
     JMenu menu1 = new JMenu("Run Operations");
@@ -35,6 +36,8 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     JLabel waterNumber = new JLabel("", SwingConstants.CENTER);
     JLabel rainTimeLabel = new JLabel(" Total Rain Time ", SwingConstants.CENTER);
     JLabel rainTimeNumber = new JLabel("", SwingConstants.CENTER);
+    JLabel eventAlertLabel = new JLabel(" Last Event To Occur ", SwingConstants.CENTER);
+    JLabel eventAlertText = new JLabel("", SwingConstants.CENTER);
 
     Font labelFont = new Font("Verdana", Font.BOLD, labelFontSize);
     Font infoFont = new Font("Verdana", Font.PLAIN, infoFontSize);
@@ -114,6 +117,16 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         rainTimeLabel.setFont(labelFont);
         rainTimeNumber.setFont(infoFont);
 
+        //Event alert panel add and layout
+        add(eventAlertPanel);
+        eventAlertPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        eventAlertPanel.add(eventAlertLabel, BorderLayout.NORTH);
+        eventAlertPanel.add(eventAlertText, BorderLayout.CENTER);
+        eventAlertPanel.setBackground(Color.GREEN);
+        eventAlertLabel.setFont(labelFont);
+        eventAlertText.setFont(infoFont);
+        eventAlertText.setText("N/A");
+
         timePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -128,7 +141,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
             }
         });
 
-        setSize(920, 900);
+        setSize(930, 1050);
         setVisible(true);
     }
 

@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.*;
 
@@ -56,12 +54,15 @@ public class HomeSimSystem {
         ArrayList<JLabel> waterApplianceLabels = new ArrayList<>();
         ArrayList<JLabel> fixtureLabels = new ArrayList<>();
         ArrayList<JLabel> waterFixtureLabels = new ArrayList<>();
+        ArrayList<JPanel> roomPanels = new ArrayList<>();
 
-        //Create Jpanels with a layout for each room
+        //Create JPanels with a layout and jLabels for each room
         for (Room roomName : rooms) {
             JPanel panel = new JPanel(new BorderLayout());
             JPanel namePanel = new JPanel();
+            roomPanels.add(namePanel);
             JPanel infoPanel = new JPanel();
+//            roomPanels.add(infoPanel);
             panel.add(namePanel, BorderLayout.NORTH);
             panel.add(infoPanel, BorderLayout.CENTER);
             infoPanel.setLayout(new GridLayout(0, 1, 10, 5));
@@ -73,6 +74,7 @@ public class HomeSimSystem {
             for (Appliances appliances1 : appliances) {
                 if (appliances1.getRoom().equals(roomName.getCurrentRoom())) {
                     JLabel jLabel = new JLabel();
+                    jLabel.setOpaque(true);
                     applianceLabels.add(jLabel);
                     infoPanel.add(jLabel);
                     jLabel.setFont(simFrame.smallInfoFont);
@@ -82,6 +84,7 @@ public class HomeSimSystem {
             for (WaterAppliances waterAppliances1 : waterAppliances) {
                 if (waterAppliances1.getRoom().equals(roomName.getCurrentRoom())) {
                     JLabel jLabel = new JLabel();
+                    jLabel.setOpaque(true);
                     waterApplianceLabels.add(jLabel);
                     infoPanel.add(jLabel);
                     jLabel.setFont(simFrame.smallInfoFont);
@@ -91,6 +94,7 @@ public class HomeSimSystem {
             for (Fixtures fixtures1 : fixtures) {
                 if (fixtures1.getRoom().equals(roomName.getCurrentRoom())) {
                     JLabel jLabel = new JLabel();
+                    jLabel.setOpaque(true);
                     fixtureLabels.add(jLabel);
                     infoPanel.add(jLabel);
                     jLabel.setFont(simFrame.smallInfoFont);
@@ -100,6 +104,7 @@ public class HomeSimSystem {
             for (WaterFixtures waterFixtures1 : waterFixtures) {
                 if (waterFixtures1.getRoom().equals(roomName.getCurrentRoom())) {
                     JLabel jLabel = new JLabel();
+                    jLabel.setOpaque(true);
                     waterFixtureLabels.add(jLabel);
                     infoPanel.add(jLabel);
                     jLabel.setFont(simFrame.smallInfoFont);
@@ -126,7 +131,9 @@ public class HomeSimSystem {
                 startHour, message, startTime % 60, meridian, house.getCurrentSunlight(), house.getCurrentTemp(), house.getSoilMoisture());
         System.out.println();
 
-        String msg;
+        String infoMsg;
+
+
         //Loop until start time is less than the end time
         while (startTime < endTime) {
             try {
@@ -162,45 +169,75 @@ public class HomeSimSystem {
                 }
 
                 //Check all of the house condition statements and change any that need to be changed
-                checkConditions(startTime, fixtures, waterFixtures, configValues, triggerValues, house);
+                checkConditions(startTime, fixtures, waterFixtures, configValues, triggerValues, house, startHour);
 
                 //Go through each object in the house and set the text of it
                 for (int z = 0; z < applianceLabels.size(); z++) {
-                    msg = String.format(" Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                    infoMsg = String.format(" Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
                             appliances.get(z).getApplianceName(),
                             appliances.get(z).getIsOn(),
                             appliances.get(z).getOnDuration(),
                             appliances.get(z).getWattsPerMin() * appliances.get(z).getOnDuration());
-                    applianceLabels.get(z).setText(msg);
+                    applianceLabels.get(z).setText(infoMsg);
                 }
 
                 for (int z = 0; z < waterApplianceLabels.size(); z++) {
-                    msg = String.format(" Water Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                    infoMsg = String.format(" Water Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
                             waterAppliances.get(z).getApplianceName(),
                             waterAppliances.get(z).getIsOn(),
                             waterAppliances.get(z).getOnDuration(),
                             waterAppliances.get(z).getWattsPerMin() * waterAppliances.get(z).getOnDuration(),
                             waterAppliances.get(z).getLitersPerMin() * waterAppliances.get(z).getOnDuration());
-                    waterApplianceLabels.get(z).setText(msg);
+                    waterApplianceLabels.get(z).setText(infoMsg);
                 }
 
                 for (int z = 0; z < fixtureLabels.size(); z++) {
-                    msg = String.format(" Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                    infoMsg = String.format(" Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
                             fixtures.get(z).getFixtureName(),
                             fixtures.get(z).getIsOn(),
                             fixtures.get(z).getOnDuration(),
                             fixtures.get(z).getWattsPerMin() * fixtures.get(z).getOnDuration());
-                    fixtureLabels.get(z).setText(msg);
+                    fixtureLabels.get(z).setText(infoMsg);
                 }
 
                 for (int z = 0; z < waterFixtureLabels.size(); z++) {
-                    msg = String.format(" Water Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                    infoMsg = String.format(" Water Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
                             waterFixtures.get(z).getFixtureName(),
                             waterFixtures.get(z).getIsOn(),
                             waterFixtures.get(z).getOnDuration(),
                             waterFixtures.get(z).getWattsPerMin() * waterFixtures.get(z).getOnDuration(),
                             waterFixtures.get(z).getLitersPerMin() * waterFixtures.get(z).getOnDuration());
-                    waterFixtureLabels.get(z).setText(msg);
+                    waterFixtureLabels.get(z).setText(infoMsg);
+                }
+
+                //Set indicator highlights for on or off
+                for (JLabel jLabel : applianceLabels) {
+                    if (jLabel.getText().contains("true")) {
+                        jLabel.setBackground(Color.GREEN);
+                    } else {
+                        jLabel.setBackground(new Color(255, 190, 200));
+                    }
+                }
+                for (JLabel jLabel : waterApplianceLabels) {
+                    if (jLabel.getText().contains("true")) {
+                        jLabel.setBackground(Color.GREEN);
+                    } else {
+                        jLabel.setBackground(new Color(255, 190, 200));
+                    }
+                }
+                for (JLabel jLabel : fixtureLabels) {
+                    if (jLabel.getText().contains("true")) {
+                        jLabel.setBackground(Color.GREEN);
+                    } else {
+                        jLabel.setBackground(new Color(255, 190, 200));
+                    }
+                }
+                for (JLabel jLabel : waterFixtureLabels) {
+                    if (jLabel.getText().contains("true")) {
+                        jLabel.setBackground(Color.GREEN);
+                    } else {
+                        jLabel.setBackground(new Color(255, 190, 200));
+                    }
                 }
 
                 /*
@@ -313,7 +350,7 @@ public class HomeSimSystem {
 
     private static void checkConditions(int startTime, ArrayList<
             Fixtures> fixtures, ArrayList<WaterFixtures> waterFixtures, ArrayList<Integer> configValues, ArrayList<Integer> triggerValues, House
-                                                house) {
+                                                house, int startHour) {
         //Set sunlight based on current house values
         setSunlight(startTime, house);
 
@@ -328,7 +365,7 @@ public class HomeSimSystem {
         }
 
         //Trigger random events based on current time and a percent chance from the config file
-        triggerRandomEvents(startTime, house, configValues.get(11), configValues.get(12), configValues.get(13));
+        triggerRandomEvents(startTime, house, configValues.get(11), configValues.get(12), configValues.get(13), startHour);
 
         //Stop Raining if its been raining for longer than set rain duration
         if (house.isRaining() && startTime > (house.getRainStart() + house.getRainEnd())) {
@@ -471,10 +508,26 @@ public class HomeSimSystem {
 
     //Make random events occur
     private static void triggerRandomEvents(int startTime, House house, int randomnessValue, int rainMin,
-                                            int rainMax) {
+                                            int rainMax, int startHour) {
         //Initialise and set variables
         double randNum = Math.random();
         double randChooseNum = Math.random();
+        String message;
+        String infoMessage;
+        String meridian;
+
+        if (startTime % 60 < 10) {
+            message = "0";
+        } else message = "";
+        if (startHour % 13 == 0) {
+            startHour = 1;
+        }
+        if (startTime > 420 && startTime < 1140) {
+            meridian = "PM";
+        } else meridian = "AM";
+        if (startTime % 60 == 0) {
+            ++startHour;
+        }
 
         //If random number less than or is 0.3 attempt to make it rain
         if (randChooseNum <= 0.3) {
@@ -487,14 +540,17 @@ public class HomeSimSystem {
                 if (house.getCurrentTemp() > house.getMinTemp()) {
                     house.setCurrentTemp(house.getCurrentTemp() - 5);
                 }
-                System.out.println(String.format("\nIt has started raining (%.0f Mins)\n", house.getRainEnd()));
+                infoMessage = String.format("Raining (%.0f Mins): %d:%s%d %s", house.getRainEnd(), startHour, message, startTime % 60, meridian);
+                simFrame.eventAlertText.setText(infoMessage);
+                simFrame.eventAlertPanel.setBackground(Color.CYAN);
             }
         }
 
         //If random number is above 0.3 attempt to make a heatwave
         //Heatwave only occurs between 8AM (180) and 5PM (720)
         if (!house.isRaining() && randChooseNum > 0.3 && startTime >= 180 && startTime <= 720 && randNum <= (randomnessValue / 100.00 - 0.007)) {
-            System.out.println("\nA Heat wave has occurred\n");
+            simFrame.eventAlertText.setText("Heat wave: " + startHour + ":" + message + startTime % 60 + " " + meridian);
+            simFrame.eventAlertPanel.setBackground(Color.ORANGE);
             house.setCurrentTemp(house.getCurrentTemp() + 10);
         }
     }
@@ -551,16 +607,15 @@ public class HomeSimSystem {
 
     //Display total duration of rain for day
     private static void displayTotalRainDuration(House house) {
-        if (house.getRainCounter() < house.getTotalRainDuration()){
-            house.setRainCounter(house.getRainCounter()+ 1);
+        if (house.getRainCounter() < house.getTotalRainDuration()) {
+            house.setRainCounter(house.getRainCounter() + 1);
         }
         //Print values of hours and mins rain duration
-        if (house.getRainCounter() > 60){
-            String message = String.format(" Rained for: %d Hours & %d Mins ", house.getRainCounter()/60, house.getRainCounter()%60);
+        if (house.getRainCounter() > 60) {
+            String message = String.format(" Rained for: %d Hours & %d Mins ", house.getRainCounter() / 60, house.getRainCounter() % 60);
             simFrame.rainTimeNumber.setText(message);
-        }
-        else {
-            String message = String.format(" Rained for: %d Hours & %d Mins ", 0, house.getRainCounter()%60);
+        } else {
+            String message = String.format(" Rained for: %d Hours & %d Mins ", 0, house.getRainCounter() % 60);
             simFrame.rainTimeNumber.setText(message);
         }
 //        System.out.printf("It Rained for a total of %.0f Hours and %.0f Minutes", hours, mins);
