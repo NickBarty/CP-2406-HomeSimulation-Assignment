@@ -166,7 +166,7 @@ public class HomeSimSystem {
 
                 //Go through each object in the house and set the text of it
                 for (int z = 0; z < applianceLabels.size(); z++) {
-                    msg = String.format(" Appliance - %s | On: %s | Mins On: %s | Watts Used: %.0f ",
+                    msg = String.format(" Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
                             appliances.get(z).getApplianceName(),
                             appliances.get(z).getIsOn(),
                             appliances.get(z).getOnDuration(),
@@ -175,7 +175,7 @@ public class HomeSimSystem {
                 }
 
                 for (int z = 0; z < waterApplianceLabels.size(); z++) {
-                    msg = String.format(" Water Appliance - %s | On: %s | Mins On: %s | Watts Used: %.0f | Liters Used: %.2f ",
+                    msg = String.format(" Water Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
                             waterAppliances.get(z).getApplianceName(),
                             waterAppliances.get(z).getIsOn(),
                             waterAppliances.get(z).getOnDuration(),
@@ -185,7 +185,7 @@ public class HomeSimSystem {
                 }
 
                 for (int z = 0; z < fixtureLabels.size(); z++) {
-                    msg = String.format(" Fixture - %s | On: %s | Mins On: %s | Watts Used: %.0f ",
+                    msg = String.format(" Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
                             fixtures.get(z).getFixtureName(),
                             fixtures.get(z).getIsOn(),
                             fixtures.get(z).getOnDuration(),
@@ -194,7 +194,7 @@ public class HomeSimSystem {
                 }
 
                 for (int z = 0; z < waterFixtureLabels.size(); z++) {
-                    msg = String.format(" Water Fixture - %s | On: %s | Mins On: %s | Watts Used: %.0f | Liters Used: %.2f ",
+                    msg = String.format(" Water Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
                             waterFixtures.get(z).getFixtureName(),
                             waterFixtures.get(z).getIsOn(),
                             waterFixtures.get(z).getOnDuration(),
@@ -291,6 +291,7 @@ public class HomeSimSystem {
 
                 displayElectricityCost(fixtures, waterFixtures, appliances, waterAppliances, configValues.get(14));
                 displayWaterUsage(waterFixtures, waterAppliances);
+                displayTotalRainDuration(house);
                 //Delay program for a specified amount of time
                 Thread.sleep(simSpeed);
             } catch (InterruptedException e) {
@@ -308,7 +309,6 @@ public class HomeSimSystem {
         }
 
         //Display the total electricity cost, water usage and total rain duration for the simulated day
-        displayTotalRainDuration(house);
     }
 
     private static void checkConditions(int startTime, ArrayList<
@@ -551,17 +551,19 @@ public class HomeSimSystem {
 
     //Display total duration of rain for day
     private static void displayTotalRainDuration(House house) {
-        //Initialise and set variable
-        double hours;
-
-        //Calculate total mins of raining to hours & mins
-        if ((house.getTotalRainDuration() / 60) - 1 < 0) {
-            hours = 0;
-        } else hours = (house.getTotalRainDuration() / 60);
-        double mins = house.getTotalRainDuration() % 60;
-
+        if (house.getRainCounter() < house.getTotalRainDuration()){
+            house.setRainCounter(house.getRainCounter()+ 1);
+        }
         //Print values of hours and mins rain duration
-        System.out.printf("It Rained for a total of %.0f Hours and %.0f Minutes", hours, mins);
+        if (house.getRainCounter() > 60){
+            String message = String.format(" Rained for: %d Hours & %d Mins ", house.getRainCounter()/60, house.getRainCounter()%60);
+            simFrame.rainTimeNumber.setText(message);
+        }
+        else {
+            String message = String.format(" Rained for: %d Hours & %d Mins ", 0, house.getRainCounter()%60);
+            simFrame.rainTimeNumber.setText(message);
+        }
+//        System.out.printf("It Rained for a total of %.0f Hours and %.0f Minutes", hours, mins);
     }
 
     //Display config values
@@ -573,7 +575,7 @@ public class HomeSimSystem {
             while ((line = br.readLine()) != null) {
                 String[] property = line.split(",");
                 if (line.startsWith("ConfigValue")) {
-                    sb.append(property[1] + " : " + property[2] + "\n");
+                    sb.append(property[1]).append(" : ").append(property[2]).append("\n");
                 }
             }
             JOptionPane.showMessageDialog(null, sb);

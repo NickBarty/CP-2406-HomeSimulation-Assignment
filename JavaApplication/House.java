@@ -8,6 +8,7 @@ class House {
     private final int MIN_SUNLIGHT, MAX_SUNLIGHT;
     private int currentSunlight;
     private int soilMoisture;
+    private int rainCounter;
     private double rainStart, rainEnd, totalRainDuration;
 
     //House Constructor
@@ -23,6 +24,7 @@ class House {
         this.rainStart = 0;
         this.rainEnd = 0;
         this.totalRainDuration = 0;
+        this.rainCounter = 0;
     }
 
     //Getters and Setters
@@ -96,5 +98,13 @@ class House {
 
     void setTotalRainDuration(double totalRainDuration) {
         this.totalRainDuration = totalRainDuration;
+    }
+
+    int getRainCounter() {
+        return rainCounter;
+    }
+
+    void setRainCounter(int rainCounter) {
+        this.rainCounter = rainCounter;
     }
 }

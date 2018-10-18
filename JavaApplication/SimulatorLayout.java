@@ -13,6 +13,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     JPanel soilMoisturePanel = new JPanel(new BorderLayout(5, 5));
     JPanel electricityPanel = new JPanel(new BorderLayout(5, 5));
     JPanel waterPanel = new JPanel(new BorderLayout(5, 5));
+    JPanel rainTimePanel = new JPanel(new BorderLayout(5,5));
 
     JMenuBar mainBar = new JMenuBar();
     JMenu menu1 = new JMenu("Run Operations");
@@ -32,10 +33,15 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     JLabel electricityNumber = new JLabel("", SwingConstants.CENTER);
     JLabel waterLabel = new JLabel(" Water ", SwingConstants.CENTER);
     JLabel waterNumber = new JLabel("", SwingConstants.CENTER);
+    JLabel rainTimeLabel = new JLabel(" Total Rain Time ", SwingConstants.CENTER);
+    JLabel rainTimeNumber = new JLabel("", SwingConstants.CENTER);
 
     Font labelFont = new Font("Verdana", Font.BOLD, labelFontSize);
     Font infoFont = new Font("Verdana", Font.PLAIN, infoFontSize);
     Font smallInfoFont = new Font("Verdana", Font.PLAIN, smallInfoFontSize);
+
+//    Dimension waterPanelSize = new Dimension(100,210);
+
 
 
     public SimulatorLayout() {
@@ -98,6 +104,15 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         waterPanel.add(waterNumber, BorderLayout.CENTER);
         waterLabel.setFont(labelFont);
         waterNumber.setFont(infoFont);
+//        waterPanel.setPreferredSize(waterPanelSize);
+
+        //Rain time panel add and layout
+        add(rainTimePanel);
+        rainTimePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        rainTimePanel.add(rainTimeLabel, BorderLayout.NORTH);
+        rainTimePanel.add(rainTimeNumber, BorderLayout.CENTER);
+        rainTimeLabel.setFont(labelFont);
+        rainTimeNumber.setFont(infoFont);
 
         timePanel.addMouseListener(new MouseAdapter() {
             @Override
