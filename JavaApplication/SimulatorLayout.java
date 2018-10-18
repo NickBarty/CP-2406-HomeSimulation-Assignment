@@ -3,24 +3,21 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SimulatorLayout extends JFrame implements ActionListener {
-    int labelFontSize = 25;
-    int infoFontSize = 20;
-    int smallInfoFontSize = 15;
-
     JPanel timePanel = new JPanel(new BorderLayout(5, 5));
     JPanel sunlightPanel = new JPanel(new BorderLayout(5, 5));
     JPanel temperaturePanel = new JPanel(new BorderLayout(5, 5));
     JPanel soilMoisturePanel = new JPanel(new BorderLayout(5, 5));
     JPanel electricityPanel = new JPanel(new BorderLayout(5, 5));
     JPanel waterPanel = new JPanel(new BorderLayout(5, 5));
-    JPanel rainTimePanel = new JPanel(new BorderLayout(5,5));
-    JPanel eventAlertPanel = new JPanel(new BorderLayout(5,5));
+    JPanel rainTimePanel = new JPanel(new BorderLayout(5, 5));
+    JPanel eventAlertPanel = new JPanel(new BorderLayout(5, 5));
 
     JMenuBar mainBar = new JMenuBar();
     JMenu menu1 = new JMenu("Run Operations");
     JMenu menu2 = new JMenu("Config");
     JMenuItem stop = new JMenuItem("Stop");
     JMenuItem viewConfig = new JMenuItem("View Config");
+    JMenuItem viewSimMetrics = new JMenuItem("View Sim Metrics");
 
     JLabel sunlightLabel = new JLabel(" Sunlight Percent ");
     JLabel sunlightNumber = new JLabel("", SwingConstants.CENTER);
@@ -39,12 +36,11 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     JLabel eventAlertLabel = new JLabel(" Last Event To Occur ", SwingConstants.CENTER);
     JLabel eventAlertText = new JLabel("", SwingConstants.CENTER);
 
-    Font labelFont = new Font("Verdana", Font.BOLD, labelFontSize);
-    Font infoFont = new Font("Verdana", Font.PLAIN, infoFontSize);
-    Font smallInfoFont = new Font("Verdana", Font.PLAIN, smallInfoFontSize);
+    Font labelFont = new Font("Verdana", Font.BOLD, 25);
+    Font infoFont = new Font("Verdana", Font.PLAIN, 20);
+    Font smallInfoFont = new Font("Verdana", Font.PLAIN, 15);
 
 //    Dimension waterPanelSize = new Dimension(100,210);
-
 
 
     public SimulatorLayout() {
@@ -57,7 +53,9 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         mainBar.add(menu2);
         menu1.add(stop);
         menu2.add(viewConfig);
+        menu2.add(viewSimMetrics);
         viewConfig.addActionListener(this);
+        viewSimMetrics.addActionListener(this);
         stop.addActionListener(this);
 
         //Time panel add and layout
@@ -122,10 +120,8 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         eventAlertPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         eventAlertPanel.add(eventAlertLabel, BorderLayout.NORTH);
         eventAlertPanel.add(eventAlertText, BorderLayout.CENTER);
-        eventAlertPanel.setBackground(Color.GREEN);
         eventAlertLabel.setFont(labelFont);
         eventAlertText.setFont(infoFont);
-        eventAlertText.setText("N/A");
 
         timePanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -156,5 +152,10 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         if (source == viewConfig) {
             HomeSimSystem.displayConfigData();
         }
+
+        if (source == viewSimMetrics) {
+            HomeSimSystem.displaySimSpeed();
+        }
+
     }
 }

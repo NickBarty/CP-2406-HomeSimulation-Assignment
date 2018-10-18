@@ -14,7 +14,6 @@ public class HomeSimSystem {
     //Home Sim System Variables
     private static String csvFile = "config.csv";
     private static String line;
-    private static final int START_TIME = 0;
     private static final int END_TIME = 1439;
     public static SimulatorLayout simFrame = new SimulatorLayout();
 
@@ -24,14 +23,15 @@ public class HomeSimSystem {
         int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
         simFrame.setLocation(x, y);
-        runSimulation(START_TIME, END_TIME);
+        runSimulation();
     }
 
 
     //Do anything based on the simulator running
     @SuppressWarnings({"SameParameterValue", "Duplicates"})
-    public static void runSimulation(int startTime, int endTime) {
+    public static void runSimulation() {
         //Generate objects
+        int startTime = 0;
         ArrayList<Fixtures> fixtures = loadFixtures();
         ArrayList<WaterFixtures> waterFixtures = loadWaterFixtures();
         ArrayList<Appliances> appliances = loadAppliances();
@@ -54,15 +54,12 @@ public class HomeSimSystem {
         ArrayList<JLabel> waterApplianceLabels = new ArrayList<>();
         ArrayList<JLabel> fixtureLabels = new ArrayList<>();
         ArrayList<JLabel> waterFixtureLabels = new ArrayList<>();
-        ArrayList<JPanel> roomPanels = new ArrayList<>();
 
         //Create JPanels with a layout and jLabels for each room
         for (Room roomName : rooms) {
             JPanel panel = new JPanel(new BorderLayout());
             JPanel namePanel = new JPanel();
-            roomPanels.add(namePanel);
             JPanel infoPanel = new JPanel();
-//            roomPanels.add(infoPanel);
             panel.add(namePanel, BorderLayout.NORTH);
             panel.add(infoPanel, BorderLayout.CENTER);
             infoPanel.setLayout(new GridLayout(0, 1, 10, 5));
@@ -116,26 +113,19 @@ public class HomeSimSystem {
         }
 
         //Initialise and set variables used in loop
-        String meridian = "AM";
-        String message = "0";
+        String meridian;
+        String message;
         int startHour = 5;
         int simSpeed = configValues.get(8);
 
-        //Initialize and set variables used to calculate simulator duration
-        double runTime = (simSpeed / 1000.0) * endTime;
-        double simMinutes = (1000.0 / simSpeed);
-        double simHours = 60 / simMinutes;
-
-        System.out.printf("Starting simulator with sim speed of: %d \n\t- %.2f minutes per second. (%.2f seconds per hour) \n\t- Total run time = %.2f seconds\n", simSpeed, simMinutes, simHours, runTime);
-        System.out.printf("\nStart Time: %d:%s%d %s \nStart Sunlight: %d%% \nStart Temperature: %d° \nStart Soil Moisture: %d%%\n",
-                startHour, message, startTime % 60, meridian, house.getCurrentSunlight(), house.getCurrentTemp(), house.getSoilMoisture());
-        System.out.println();
-
         String infoMsg;
 
-
+        displaySimSpeed();
+        simFrame.eventAlertPanel.setBackground(Color.GREEN);
+        simFrame.eventAlertText.setText("N/A");
+        simFrame.electricityPanel.setBackground(new Color(0, 255, 0));
         //Loop until start time is less than the end time
-        while (startTime < endTime) {
+        while (startTime < END_TIME) {
             try {
                 //Set all objects in the house to be off
                 for (Fixtures fixtures1 : fixtures) {
@@ -348,6 +338,21 @@ public class HomeSimSystem {
         //Display the total electricity cost, water usage and total rain duration for the simulated day
     }
 
+    public static int displaySimSpeed() {
+        ArrayList<Integer> configValues = loadConfigValues();
+        int simSpeed = configValues.get(8);
+
+        //Initialize and set variables used to calculate simulator duration
+        double runTime = (simSpeed / 1000.0) * END_TIME;
+        double simMinutes = (1000.0 / simSpeed);
+        double simHours = 60 / simMinutes;
+
+        JLabel label = new JLabel(String.format("<html>Simulation speed = %d<br>Minutes per second = %.2f<br>Seconds per simulated hour = %.2f<br>Total run time = %.2f seconds</html>", simSpeed, simMinutes, simHours, runTime));
+        label.setFont(new Font("Verdana", Font.PLAIN, 30));
+        JOptionPane.showMessageDialog(null, label);
+        return simSpeed;
+    }
+
     private static void checkConditions(int startTime, ArrayList<
             Fixtures> fixtures, ArrayList<WaterFixtures> waterFixtures, ArrayList<Integer> configValues, ArrayList<Integer> triggerValues, House
                                                 house, int startHour) {
@@ -530,7 +535,7 @@ public class HomeSimSystem {
         }
 
         //If random number less than or is 0.3 attempt to make it rain
-        if (randChooseNum <= 0.3) {
+        if (randChooseNum <= 0.9) {
             //Start Raining, do events
             if (!house.isRaining() && randNum <= (randomnessValue / 100.00) - 0.007) {
                 house.setRaining(true);
@@ -583,6 +588,12 @@ public class HomeSimSystem {
         cost = totalKw * costPerKw;
         String message = String.format(" Used = %.2f Kw | Cost = $%.2f", totalKw, cost);
         simFrame.electricityNumber.setText(message);
+        int colorCost = (int) cost;
+        if (colorCost >= 8) {
+            colorCost = 7;
+        }
+        simFrame.electricityPanel.setBackground(new Color(colorCost * 35, 255 - colorCost * 35, 2));
+
     }
 
     //Display total water usage for the day
@@ -602,7 +613,11 @@ public class HomeSimSystem {
         //Print value of total liters used for the day
         String message = String.format(" Water used in L = %.2f ", totalWaterUsage);
         simFrame.waterNumber.setText(message);
-//        System.out.println("Total Liters Of Water Used: " + totalWaterUsage);
+        int waterUsageColor = (int) totalWaterUsage;
+        if (waterUsageColor > 255) {
+            waterUsageColor = 255;
+        }
+        simFrame.waterPanel.setBackground(new Color(255 - waterUsageColor, 255, 255));
     }
 
     //Display total duration of rain for day
@@ -618,7 +633,12 @@ public class HomeSimSystem {
             String message = String.format(" Rained for: %d Hours & %d Mins ", 0, house.getRainCounter() % 60);
             simFrame.rainTimeNumber.setText(message);
         }
-//        System.out.printf("It Rained for a total of %.0f Hours and %.0f Minutes", hours, mins);
+        int rainColor = 0;
+        if (house.getRainCounter() > 255) {
+            simFrame.rainTimePanel.setBackground(new Color(rainColor, 255, 255));
+        } else {
+            simFrame.rainTimePanel.setBackground(new Color(255 - house.getRainCounter(), 255, 255));
+        }
     }
 
     //Display config values
