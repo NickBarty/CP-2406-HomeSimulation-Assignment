@@ -66,16 +66,16 @@ USER STORIES:
 
 10) A user needs to be able to see which rooms are apart of the house in a GUI format
     Estimate: 3 Hours
-    Overall Status:
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test all rooms appear in the GUI
+    Tested all rooms appear in the GUI successfully
 =============================================================================================
 
 11) A user needs to be able to see the status of all the fixtures & appliances in all rooms in a GUI format
     Estimate: 5 Hours
-    Overall Status: TODO
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test all appliances and fixtures appear in the rooms GUI component
+    Tested all appliances and fixtures appear in their respective room GUI component successfully
 
 
 =========================================
