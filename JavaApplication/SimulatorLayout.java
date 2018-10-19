@@ -13,19 +13,29 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     JPanel eventAlertPanel = new JPanel(new BorderLayout(5, 5));
 
     JMenuBar mainBar = new JMenuBar();
-    JMenu menu1 = new JMenu("Run Operations");
-    JMenu menu2 = new JMenu("Config");
-    JMenuItem stop = new JMenuItem("Stop");
-    JMenuItem viewConfig = new JMenuItem("View Config");
+    JMenu menu1 = new JMenu("File");
+    JMenuItem viewConfig = new JMenuItem("Current Configuration");
+    JMenuItem exit = new JMenuItem("Exit");
+
+    JMenu menu2 = new JMenu("Simulation");
+    JMenuItem showHideInfo = new JMenuItem("Show/Hide Info");
+    JMenuItem run = new JMenuItem("Run");//TODO
+    JMenuItem pause = new JMenuItem("Pause");//TODO
+    JMenuItem stop = new JMenuItem("Stop");//TODO
+
+    JMenu menu3 = new JMenu("Help");
+    JMenuItem about = new JMenuItem("About");
+    JMenuItem userGuide = new JMenuItem("User Guide");
     JMenuItem viewSimMetrics = new JMenuItem("View Sim Metrics");
 
-    JLabel sunlightLabel = new JLabel(" Sunlight Percent ");
+
+    JLabel sunlightLabel = new JLabel(" Sunlight Percent ", SwingConstants.CENTER);
     JLabel sunlightNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel temperatureLabel = new JLabel(" Temperature ");
+    JLabel temperatureLabel = new JLabel(" Temperature ", SwingConstants.CENTER);
     JLabel temperatureNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel soilMoistureLabel = new JLabel(" Soil Moisture Percent ");
+    JLabel soilMoistureLabel = new JLabel(" Soil Moisture Percent ", SwingConstants.CENTER);
     JLabel soilMoistureNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel timeLabel = new JLabel(" Time ");
+    JLabel timeLabel = new JLabel(" Time ", SwingConstants.CENTER);
     JLabel timeNumber = new JLabel("", SwingConstants.CENTER);
     JLabel electricityLabel = new JLabel(" Electricity ", SwingConstants.CENTER);
     JLabel electricityNumber = new JLabel("", SwingConstants.CENTER);
@@ -40,7 +50,9 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     Font infoFont = new Font("Verdana", Font.PLAIN, 20);
     Font smallInfoFont = new Font("Verdana", Font.PLAIN, 15);
 
-//    Dimension waterPanelSize = new Dimension(100,210);
+    int showHideCounter = 0;
+
+    Dimension metricDimensions = new Dimension(400,75);
 
 
     public SimulatorLayout() {
@@ -50,13 +62,29 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         setJMenuBar(mainBar);
 
         mainBar.add(menu1);
-        mainBar.add(menu2);
-        menu1.add(stop);
-        menu2.add(viewConfig);
-        menu2.add(viewSimMetrics);
+        menu1.add(viewConfig);
+        menu1.add(exit);
         viewConfig.addActionListener(this);
-        viewSimMetrics.addActionListener(this);
+        exit.addActionListener(this);
+
+        mainBar.add(menu2);
+        menu2.add(showHideInfo);
+        menu2.add(run);
+        menu2.add(pause);
+        menu2.add(stop);
+        showHideInfo.addActionListener(this);
+        run.addActionListener(this);
+        pause.addActionListener(this);
         stop.addActionListener(this);
+
+        mainBar.add(menu3);
+        menu3.add(about);
+        menu3.add(userGuide);
+        menu3.add(viewSimMetrics);
+        about.addActionListener(this);
+        userGuide.addActionListener(this);
+        viewSimMetrics.addActionListener(this);
+
 
         //Time panel add and layout
         add(timePanel);
@@ -65,6 +93,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         timePanel.add(timeNumber, BorderLayout.CENTER);
         timeLabel.setFont(labelFont);
         timeNumber.setFont(infoFont);
+        timePanel.setPreferredSize(metricDimensions);
 
         //Sunlight panel add and layout
         add(sunlightPanel);
@@ -73,6 +102,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         sunlightPanel.add(sunlightNumber, BorderLayout.CENTER);
         sunlightLabel.setFont(labelFont);
         sunlightNumber.setFont(infoFont);
+        sunlightPanel.setPreferredSize(metricDimensions);
 
         //Temperature panel add and layout
         add(temperaturePanel);
@@ -81,6 +111,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         temperaturePanel.add(temperatureNumber, BorderLayout.CENTER);
         temperatureLabel.setFont(labelFont);
         temperatureNumber.setFont(infoFont);
+        temperaturePanel.setPreferredSize(metricDimensions);
 
         //Soil Moisture add and layout
         add(soilMoisturePanel);
@@ -89,6 +120,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         soilMoisturePanel.add(soilMoistureNumber, BorderLayout.CENTER);
         soilMoistureLabel.setFont(labelFont);
         soilMoistureNumber.setFont(infoFont);
+        soilMoisturePanel.setPreferredSize(metricDimensions);
 
         //Electricity panel add and layout
         add(electricityPanel);
@@ -97,6 +129,8 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         electricityPanel.add(electricityNumber, BorderLayout.CENTER);
         electricityLabel.setFont(labelFont);
         electricityNumber.setFont(infoFont);
+        electricityPanel.setPreferredSize(metricDimensions);
+
 
         //Water panel add and layout
         add(waterPanel);
@@ -105,7 +139,8 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         waterPanel.add(waterNumber, BorderLayout.CENTER);
         waterLabel.setFont(labelFont);
         waterNumber.setFont(infoFont);
-//        waterPanel.setPreferredSize(waterPanelSize);
+        waterPanel.setPreferredSize(metricDimensions);
+
 
         //Rain time panel add and layout
         add(rainTimePanel);
@@ -114,6 +149,8 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         rainTimePanel.add(rainTimeNumber, BorderLayout.CENTER);
         rainTimeLabel.setFont(labelFont);
         rainTimeNumber.setFont(infoFont);
+        rainTimePanel.setPreferredSize(metricDimensions);
+
 
         //Event alert panel add and layout
         add(eventAlertPanel);
@@ -122,6 +159,8 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         eventAlertPanel.add(eventAlertText, BorderLayout.CENTER);
         eventAlertLabel.setFont(labelFont);
         eventAlertText.setFont(infoFont);
+        eventAlertPanel.setPreferredSize(metricDimensions);
+
 
         timePanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -137,7 +176,7 @@ public class SimulatorLayout extends JFrame implements ActionListener {
             }
         });
 
-        setSize(930, 1050);
+        setSize(1650, 800);
         setVisible(true);
     }
 
@@ -145,17 +184,46 @@ public class SimulatorLayout extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source == stop) {
+        if (source == viewConfig) {
+            HomeSimSystem.displayConfigData();
+        }
+
+        if (source == exit) {
             System.exit(0);
         }
 
-        if (source == viewConfig) {
-            HomeSimSystem.displayConfigData();
+        if (source == showHideInfo && showHideCounter % 2 == 0) {
+            HomeSimSystem.disableMetricsDisplay();
+            showHideCounter++;
+        } else {
+            HomeSimSystem.enableMetricsDisplay();
+            showHideCounter++;
+        }
+
+        if (source == run){
+
+        }
+
+        if (source == pause){
+
+        }
+
+        if (source == stop){
+
+        }
+
+        if (source == about){
+            JmenuDialogues.displayAbout();
+        }
+
+        if (source == userGuide){
+            JmenuDialogues.displayUserGuide();
         }
 
         if (source == viewSimMetrics) {
             HomeSimSystem.displaySimSpeed();
         }
+
 
     }
 }

@@ -127,8 +127,8 @@ SPIKE USER STORIES:
 
 6) A user needs the application to update the house metrics, appliance and fixture status on the GUI as the application runs
     Estimate: 6 Hours
-    Overall Status: TODO
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test house metrics update
-    TODO - Test the status of all appliances update
-    TODO - Test the status of all fixtures update
+    Tested house metrics update successfully
+    Tested the status of all appliances update successfully
+    Tested the status of all fixtures update successfully

@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
+import java.util.Timer;
 
 /*
 Provides menu for running the program
@@ -18,11 +21,6 @@ public class HomeSimSystem {
     public static SimulatorLayout simFrame = new SimulatorLayout();
 
     public static void main(String[] args) {
-        //Create simulator frame and move it to center of screen
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
-        simFrame.setLocation(x, y);
         runSimulation();
     }
 
@@ -58,6 +56,8 @@ public class HomeSimSystem {
         //Create JPanels with a layout and jLabels for each room
         for (Room roomName : rooms) {
             JPanel panel = new JPanel(new BorderLayout());
+            Dimension panelDimension = new Dimension(805, 165);
+            panel.setPreferredSize(panelDimension);
             JPanel namePanel = new JPanel();
             JPanel infoPanel = new JPanel();
             panel.add(namePanel, BorderLayout.NORTH);
@@ -108,10 +108,20 @@ public class HomeSimSystem {
                 }
             }
 
+            //Create simulator frame and move it to center of screen
+            if (rooms.size() % 2 == 0) {
+                simFrame.setSize(1650, 170 + (rooms.size() / 2 * 200));
+            } else {
+                simFrame.setSize(1650, 170 + (rooms.size() + 1) / 2 * 200);
+            }
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
+            int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
+            simFrame.setLocation(x, y);
+
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             simFrame.add(panel);
         }
-
         //Initialise and set variables used in loop
         String meridian;
         String message;
@@ -120,11 +130,12 @@ public class HomeSimSystem {
 
         String infoMsg;
 
-        displaySimSpeed();
         simFrame.eventAlertPanel.setBackground(Color.GREEN);
         simFrame.eventAlertText.setText("N/A");
         simFrame.electricityPanel.setBackground(new Color(0, 255, 0));
         //Loop until start time is less than the end time
+
+
         while (startTime < END_TIME) {
             try {
                 //Set all objects in the house to be off
@@ -338,6 +349,20 @@ public class HomeSimSystem {
         //Display the total electricity cost, water usage and total rain duration for the simulated day
     }
 
+    public static void disableMetricsDisplay() {
+        simFrame.electricityPanel.setVisible(false);
+        simFrame.waterPanel.setVisible(false);
+        simFrame.rainTimePanel.setVisible(false);
+        simFrame.eventAlertPanel.setVisible(false);
+    }
+
+    public static void enableMetricsDisplay() {
+        simFrame.electricityPanel.setVisible(true);
+        simFrame.waterPanel.setVisible(true);
+        simFrame.rainTimePanel.setVisible(true);
+        simFrame.eventAlertPanel.setVisible(true);
+    }
+
     public static int displaySimSpeed() {
         ArrayList<Integer> configValues = loadConfigValues();
         int simSpeed = configValues.get(8);
@@ -347,7 +372,8 @@ public class HomeSimSystem {
         double simMinutes = (1000.0 / simSpeed);
         double simHours = 60 / simMinutes;
 
-        JLabel label = new JLabel(String.format("<html>Simulation speed = %d<br>Minutes per second = %.2f<br>Seconds per simulated hour = %.2f<br>Total run time = %.2f seconds</html>", simSpeed, simMinutes, simHours, runTime));
+        JLabel label = new JLabel(String.format("<html>Simulation speed = <b>%d</b><br>Minutes per second = <b>%.2f</b>" +
+                "<br>Seconds per simulated hour = <b>%.2f</b><br>Total run time = <b>%.2f seconds</b></html>", simSpeed, simMinutes, simHours, runTime));
         label.setFont(new Font("Verdana", Font.PLAIN, 30));
         JOptionPane.showMessageDialog(null, label);
         return simSpeed;
@@ -644,16 +670,20 @@ public class HomeSimSystem {
     //Display config values
     public static void displayConfigData() {
         StringBuilder sb = new StringBuilder();
+        sb.append("<html>");
 
         //Read in config data from csv file and print it
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
                 String[] property = line.split(",");
                 if (line.startsWith("ConfigValue")) {
-                    sb.append(property[1]).append(" : ").append(property[2]).append("\n");
+                    sb.append(property[1]).append(" : <b>").append(property[2]).append("</b><br>");
                 }
             }
-            JOptionPane.showMessageDialog(null, sb);
+            sb.append("</html>");
+            JLabel message = new JLabel(sb.toString());
+            message.setFont(new Font("Verdana", Font.PLAIN, 20));
+            JOptionPane.showMessageDialog(null, message);
             System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
