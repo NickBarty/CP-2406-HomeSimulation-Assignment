@@ -37,9 +37,9 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
     JLabel soilMoistureNumber = new JLabel("", SwingConstants.CENTER);
     JLabel timeLabel = new JLabel(" Time ", SwingConstants.CENTER);
     JLabel timeNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel electricityLabel = new JLabel(" Electricity ", SwingConstants.CENTER);
+    JLabel electricityLabel = new JLabel(" Electricity Used ", SwingConstants.CENTER);
     JLabel electricityNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel waterLabel = new JLabel(" Water ", SwingConstants.CENTER);
+    JLabel waterLabel = new JLabel(" Water Used", SwingConstants.CENTER);
     JLabel waterNumber = new JLabel("", SwingConstants.CENTER);
     JLabel rainTimeLabel = new JLabel(" Total Rain Time ", SwingConstants.CENTER);
     JLabel rainTimeNumber = new JLabel("", SwingConstants.CENTER);
@@ -52,12 +52,13 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
 
     int showHideCounter = 0;
 
-    Dimension metricDimensions = new Dimension(400, 75);
+
 
 
     public SimulatorLayout() {
         super("Home Simulator System");
         setLayout(new FlowLayout());
+        Dimension metricDimensions = new Dimension((int)HomeSimSystem.dimension.getWidth()/4 - 5, 75);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
         setJMenuBar(mainBar);
@@ -162,7 +163,6 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
         eventAlertText.setFont(infoFont);
         eventAlertPanel.setPreferredSize(metricDimensions);
 
-        setSize(1650, 800);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);

@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class JmenuDialogues {
     public static void displayAbout(){
-        JLabel message = new JLabel("<html><center><b>About Info</b></center>Home simulator version: <b>V0.27</b><br>" +
+        JLabel message = new JLabel("<html><center><b>About Info</b></center>Home simulator version: <b>V0.30</b><br>" +
                 "Programmer: <b>Nicholas Barty</b></html>");
         message.setFont(new Font("Verdana", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(null,message);
@@ -15,8 +15,8 @@ public class JmenuDialogues {
                 "- Find current configuration under: <b>File -> Current Configuration</b><br><br>" +
                 "- Display of some metrics can be toggled under: <b>Simulation -> Show/Hide Info</b><br><br>" +
                 "- Run/Pause/Stop can be found under: <b>Simulation -> Run/Pause/Stop</b><br><br>" +
-                "- About information can be found under: <b>Help -> About</b><br>" +
-                "- Shortcut keys can be found in brackets ()<br><br><br>" +
+                "- About information can be found under: <b>Help -> About</b><br><br>" +
+                "- Shortcut keys can be found in brackets ()<br><br>" +
                 "<center><b>Shortcut Keys:</b></center>" +
                 "<b>(1)</b> Run Simulator<br>" +
                 "<b>(2)</b> Pause Simulator<br>" +

@@ -12,6 +12,7 @@ public class HomeSimSystem {
     private static String line;
     private static int count = 0;
     private static final int END_TIME = 1439;
+    public static Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
     public static SimulatorLayout simFrame = new SimulatorLayout();
     public static Timer timer;
     public static Boolean stopped = true;
@@ -26,6 +27,7 @@ public class HomeSimSystem {
     public static ArrayList<Room> rooms = loadRooms();
 
 
+
     public static void main(String[] args) {
         build();
     }
@@ -35,8 +37,15 @@ public class HomeSimSystem {
         //Create JPanels with a layout and jLabels for each room
         for (Room roomName : rooms) {
             JPanel panel = new JPanel(new BorderLayout());
-            Dimension panelDimension = new Dimension(805, 165);
-            panel.setPreferredSize(panelDimension);
+            if (dimension.getWidth()<1600){
+                Dimension panelDimension = new Dimension((int)dimension.getWidth()/2 - 5, (int)dimension.getHeight()/rooms.size() + 50);
+                panel.setPreferredSize(panelDimension);
+            }
+            else {
+                Dimension panelDimension = new Dimension(805, 165);
+                panel.setPreferredSize(panelDimension);
+
+            }
             JPanel namePanel = new JPanel();
             JPanel infoPanel = new JPanel();
             panel.add(namePanel, BorderLayout.NORTH);
@@ -88,15 +97,7 @@ public class HomeSimSystem {
             }
 
             //Create simulator frame and move it to center of screen
-            if (rooms.size() % 2 == 0) {
-                simFrame.setSize(1650, 160 + (rooms.size() / 2 * 200));
-            } else {
-                simFrame.setSize(1650, 160 + (rooms.size() + 1) / 2 * 200);
-            }
-            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-            int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
-            int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
-            simFrame.setLocation(x, y);
+            setWindow();
 
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             simFrame.add(panel);
@@ -104,6 +105,22 @@ public class HomeSimSystem {
         simFrame.eventAlertPanel.setBackground(Color.GREEN);
         simFrame.eventAlertText.setText("N/A");
         simFrame.electricityPanel.setBackground(new Color(0, 255, 0));
+    }
+
+    public static void setWindow() {
+        if (dimension.getWidth() < 1600) {
+            simFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        } else {
+            if (rooms.size() % 2 == 0) {
+                simFrame.setSize(1650, 160 + (rooms.size() / 2 * 200));
+            } else {
+                simFrame.setSize(1650, 160 + (rooms.size() + 1) / 2 * 200);
+            }
+        }
+
+        int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
+        simFrame.setLocation(x, y);
     }
 
     //Do anything based on the simulator running
@@ -131,7 +148,19 @@ public class HomeSimSystem {
 
         final String[] infoMsg = new String[1];
         //Loop until start time is less than the end time
+        String[] objectStrings = new String[4];
+        objectStrings[0] = "Appliance - ";
+        objectStrings[1] = "Water Appliance - ";
+        objectStrings[2] = "Fixture - ";
+        objectStrings[3] = "Water Fixture - ";
 
+        boolean sizeCheck = false;
+        if (dimension.getWidth()<1600){
+            sizeCheck = true;
+        }
+        final String[] objectTypeString = {""};
+
+        boolean finalSizeCheck = sizeCheck;
         ActionListener taskPerformer = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -172,7 +201,11 @@ public class HomeSimSystem {
 
                 //Go through each object in the house and set the text of it
                 for (int z = 0; z < applianceLabels.size(); z++) {
-                    infoMsg[0] = String.format(" Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                    if (!finalSizeCheck){
+                        objectTypeString[0] = objectStrings[0];
+                    }
+                    infoMsg[0] = String.format(" %s%s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                            objectTypeString[0],
                             appliances.get(z).getApplianceName(),
                             appliances.get(z).getIsOn(),
                             appliances.get(z).getOnDuration(),
@@ -181,7 +214,11 @@ public class HomeSimSystem {
                 }
 
                 for (int z = 0; z < waterApplianceLabels.size(); z++) {
-                    infoMsg[0] = String.format(" Water Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                    if (!finalSizeCheck){
+                        objectTypeString[0] = objectStrings[1];
+                    }
+                    infoMsg[0] = String.format(" %s%s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                            objectTypeString[0],
                             waterAppliances.get(z).getApplianceName(),
                             waterAppliances.get(z).getIsOn(),
                             waterAppliances.get(z).getOnDuration(),
@@ -191,7 +228,11 @@ public class HomeSimSystem {
                 }
 
                 for (int z = 0; z < fixtureLabels.size(); z++) {
-                    infoMsg[0] = String.format(" Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                    if (!finalSizeCheck){
+                        objectTypeString[0] = objectStrings[2];
+                    }
+                    infoMsg[0] = String.format(" %s%s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                            objectTypeString[0],
                             fixtures.get(z).getFixtureName(),
                             fixtures.get(z).getIsOn(),
                             fixtures.get(z).getOnDuration(),
@@ -200,7 +241,11 @@ public class HomeSimSystem {
                 }
 
                 for (int z = 0; z < waterFixtureLabels.size(); z++) {
-                    infoMsg[0] = String.format(" Water Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                    if (!finalSizeCheck){
+                        objectTypeString[0] = objectStrings[3];
+                    }
+                    infoMsg[0] = String.format(" %s%s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                            objectTypeString[0],
                             waterFixtures.get(z).getFixtureName(),
                             waterFixtures.get(z).getIsOn(),
                             waterFixtures.get(z).getOnDuration(),
@@ -373,15 +418,7 @@ public class HomeSimSystem {
         simFrame.waterPanel.setVisible(false);
         simFrame.rainTimePanel.setVisible(false);
         simFrame.eventAlertPanel.setVisible(false);
-        if (rooms.size() % 2 == 0) {
-            simFrame.setSize(1650, 90 + (rooms.size() / 2 * 200));
-        } else {
-            simFrame.setSize(1650, 90 + (rooms.size() + 1) / 2 * 200);
-        }
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
-        simFrame.setLocation(x, y);
+        setWindow();
     }
 
     public static void enableMetricsDisplay() {
@@ -389,15 +426,7 @@ public class HomeSimSystem {
         simFrame.waterPanel.setVisible(true);
         simFrame.rainTimePanel.setVisible(true);
         simFrame.eventAlertPanel.setVisible(true);
-        if (rooms.size() % 2 == 0) {
-            simFrame.setSize(1650, 160 + (rooms.size() / 2 * 200));
-        } else {
-            simFrame.setSize(1650, 160 + (rooms.size() + 1) / 2 * 200);
-        }
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
-        simFrame.setLocation(x, y);
+        setWindow();
     }
 
     public static int displaySimSpeed() {
@@ -648,7 +677,7 @@ public class HomeSimSystem {
         //Calculate kW value and cost, print values
         double totalKw = totalWatts / 1000.00;
         cost = totalKw * costPerKw;
-        String message = String.format(" Used = %.2f Kw | Cost = $%.2f", totalKw, cost);
+        String message = String.format(" %.2f Kw | $%.2f ", totalKw, cost);
         simFrame.electricityNumber.setText(message);
         int colorCost = (int) cost;
         if (colorCost >= 8) {
@@ -673,7 +702,7 @@ public class HomeSimSystem {
         }
 
         //Print value of total liters used for the day
-        String message = String.format(" Water used in L = %.2f ", totalWaterUsage);
+        String message = String.format(" %.2fL", totalWaterUsage);
         simFrame.waterNumber.setText(message);
         int waterUsageColor = (int) totalWaterUsage;
         if (waterUsageColor > 255) {
