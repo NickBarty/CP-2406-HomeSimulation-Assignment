@@ -76,6 +76,14 @@ USER STORIES:
     Overall Status: COMPLETE
     Notes:
     Tested all appliances and fixtures appear in their respective room GUI component successfully
+=============================================================================================
+
+12) A user needs to be able to be able to control the GUI through hot-keys
+    Estimate: 1 Hour
+    Overall Status: COMPLETE
+    Notes:
+    Tested all hot-keys work as expected successfully
+
 
 
 =========================================
@@ -117,12 +125,11 @@ SPIKE USER STORIES:
     Successfully tested Sunlight is reduced by the configured amount when raining
 =============================================================================================
 
-5) A user needs to be able to Start, Stop and pause the program on demand
+5) A user needs to be able to Start and pause the program on demand
     Estimate: 5 hours
-    Overall Status: TODO
+    Overall Status: COMPLETE
     Notes:
-    TODO - Test that stop closes the application
-    TODO - Test that pausing the program stops the program in place and allows the user to start the program again at any time
+    Successfully tested that pausing the program 'pauses' the program in place and allows the user to start the program again at any time
 =============================================================================================
 
 6) A user needs the application to update the house metrics, appliance and fixture status on the GUI as the application runs

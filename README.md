@@ -7,7 +7,7 @@ This is the CP2406 home automation simulator project codebase.
 4. (DONE) Establish initial UML Class diagram
 5. (DONE) Establish classes in intellij
 6. (DONE) Set up classes based on the UML class diagram
-7. (DONE) Implement user stories one at a time (15/17 Complete) (2/17 Incomplete / Buggy)
+7. (DONE) Implement user stories one at a time (17/18 Complete) (1/17 Incomplete / Buggy)
 8. (DONE) Refine application once all user stories have been implemented
 
 
@@ -35,10 +35,8 @@ The following details what is allowed in each field of  the 'config.csv' file
 - **startMoisture**: Set starting moisture percent of simulator (0-100)
 - **tempChangeDelayTime**: Set how often temperature is checked to be changed in simulated minutes 
 - **soilChangeDelayTime**: Set how often soil moisture is checked to be changed in simulated minutes 
-- **printOnOff**: Set to 1 to print status of all objects every print cycle (Any other number to not print) 
 - **miliSecondsPerMin**: Set how many mili seconds is a simulated minute (Higher is slower)
 - **minsBetweenUpdate**: Set how often house metrics should be updated & printed in simulated minutes 
-- **minsBetweenPrint**: Set how often the status of all objects should be printed in simulated minutes (Will not print if **printOnOff** is set to 1)
 - **randomEventChance**: Set how often random events occur (Higher is more often)
 - **rainMinLength**: Set the minimum number of simulated minutes to rain for if raining occurs
 - **rainMaxLength**: Set the maximum number of simulated minutes to rain for if raining occurs

@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class SimulatorLayout extends JFrame implements ActionListener {
+public class SimulatorLayout extends JFrame implements ActionListener, KeyListener {
     JPanel timePanel = new JPanel(new BorderLayout(5, 5));
     JPanel sunlightPanel = new JPanel(new BorderLayout(5, 5));
     JPanel temperaturePanel = new JPanel(new BorderLayout(5, 5));
@@ -14,19 +14,19 @@ public class SimulatorLayout extends JFrame implements ActionListener {
 
     JMenuBar mainBar = new JMenuBar();
     JMenu menu1 = new JMenu("File");
-    JMenuItem viewConfig = new JMenuItem("Current Configuration");
-    JMenuItem exit = new JMenuItem("Exit");
+    JMenuItem viewConfig = new JMenuItem("Current Configuration (8)");
+    JMenuItem exit = new JMenuItem("Exit (9)");
 
     JMenu menu2 = new JMenu("Simulation");
-    JMenuItem showHideInfo = new JMenuItem("Show/Hide Info");
-    JMenuItem run = new JMenuItem("Run");//TODO
-    JMenuItem pause = new JMenuItem("Pause");//TODO
-    JMenuItem stop = new JMenuItem("Stop");//TODO
+    JMenuItem run = new JMenuItem("Run (1)");
+    JMenuItem pause = new JMenuItem("Pause (2)");
+    JMenuItem showHideInfo = new JMenuItem("Show/Hide Info (3)");
+    JMenuItem changeSimSpeed = new JMenuItem("Change Sim Speed (4)");
 
     JMenu menu3 = new JMenu("Help");
-    JMenuItem about = new JMenuItem("About");
-    JMenuItem userGuide = new JMenuItem("User Guide");
-    JMenuItem viewSimMetrics = new JMenuItem("View Sim Metrics");
+    JMenuItem about = new JMenuItem("About (5)");
+    JMenuItem userGuide = new JMenuItem("User Guide (6)");
+    JMenuItem viewSimMetrics = new JMenuItem("Sim-speed Metrics (7)");
 
 
     JLabel sunlightLabel = new JLabel(" Sunlight Percent ", SwingConstants.CENTER);
@@ -52,13 +52,14 @@ public class SimulatorLayout extends JFrame implements ActionListener {
 
     int showHideCounter = 0;
 
-    Dimension metricDimensions = new Dimension(400,75);
+    Dimension metricDimensions = new Dimension(400, 75);
 
 
     public SimulatorLayout() {
         super("Home Simulator System");
         setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addKeyListener(this);
         setJMenuBar(mainBar);
 
         mainBar.add(menu1);
@@ -68,14 +69,14 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         exit.addActionListener(this);
 
         mainBar.add(menu2);
-        menu2.add(showHideInfo);
         menu2.add(run);
         menu2.add(pause);
-        menu2.add(stop);
-        showHideInfo.addActionListener(this);
+        menu2.add(showHideInfo);
+        menu2.add(changeSimSpeed);
         run.addActionListener(this);
         pause.addActionListener(this);
-        stop.addActionListener(this);
+        showHideInfo.addActionListener(this);
+        changeSimSpeed.addActionListener(this);
 
         mainBar.add(menu3);
         menu3.add(about);
@@ -161,23 +162,13 @@ public class SimulatorLayout extends JFrame implements ActionListener {
         eventAlertText.setFont(infoFont);
         eventAlertPanel.setPreferredSize(metricDimensions);
 
-
-        timePanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                timePanel.setBackground(Color.GRAY);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                timePanel.setBackground(Color.white);
-            }
-        });
-
         setSize(1650, 800);
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - getHeight()) / 2);
+        setLocation(x, y);
         setVisible(true);
+
     }
 
 
@@ -200,23 +191,24 @@ public class SimulatorLayout extends JFrame implements ActionListener {
             showHideCounter++;
         }
 
-        if (source == run){
+        if (source == run) {
+            HomeSimSystem.run();
 
         }
 
-        if (source == pause){
-
+        if (source == pause) {
+            HomeSimSystem.pause();
         }
 
-        if (source == stop){
-
+        if (source == changeSimSpeed) {
+            HomeSimSystem.setSpeed();
         }
 
-        if (source == about){
+        if (source == about) {
             JmenuDialogues.displayAbout();
         }
 
-        if (source == userGuide){
+        if (source == userGuide) {
             JmenuDialogues.displayUserGuide();
         }
 
@@ -224,6 +216,52 @@ public class SimulatorLayout extends JFrame implements ActionListener {
             HomeSimSystem.displaySimSpeed();
         }
 
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char c = e.getKeyChar();
+        if (c == '1') {
+            HomeSimSystem.run();
+        }
+        if (c == '2') {
+            HomeSimSystem.pause();
+        }
+        if (c == '3' && showHideCounter % 2 == 0) {
+            HomeSimSystem.disableMetricsDisplay();
+            showHideCounter++;
+        } else {
+            HomeSimSystem.enableMetricsDisplay();
+            showHideCounter++;
+        }
+        if (c == '4') {
+            HomeSimSystem.setSpeed();
+        }
+        if (c == '5') {
+            JmenuDialogues.displayAbout();
+        }
+        if (c == '6') {
+            JmenuDialogues.displayUserGuide();
+        }
+        if (c == '7') {
+            HomeSimSystem.displaySimSpeed();
+        }
+        if (c == '8') {
+            HomeSimSystem.displayConfigData();
+        }
+        if (c == '9') {
+            System.exit(0);
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

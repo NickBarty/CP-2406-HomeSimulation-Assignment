@@ -1,58 +1,37 @@
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
-import java.util.Timer;
-
-/*
-Provides menu for running the program
-Provides methods to get total metrics
-Provides method to simulate time
-Provides methods to load config file properties
-*/
 
 public class HomeSimSystem {
     //Home Sim System Variables
     private static String csvFile = "config.csv";
     private static String line;
+    private static int count = 0;
     private static final int END_TIME = 1439;
     public static SimulatorLayout simFrame = new SimulatorLayout();
+    public static Timer timer;
+    public static Boolean stopped = true;
+    public static ArrayList<JLabel> applianceLabels = new ArrayList<>();
+    public static ArrayList<JLabel> waterApplianceLabels = new ArrayList<>();
+    public static ArrayList<JLabel> fixtureLabels = new ArrayList<>();
+    public static ArrayList<JLabel> waterFixtureLabels = new ArrayList<>();
+    public static ArrayList<Fixtures> fixtures = loadFixtures();
+    public static ArrayList<WaterFixtures> waterFixtures = loadWaterFixtures();
+    public static ArrayList<Appliances> appliances = loadAppliances();
+    public static ArrayList<WaterAppliances> waterAppliances = loadWaterAppliances();
+    public static ArrayList<Room> rooms = loadRooms();
+
 
     public static void main(String[] args) {
-        runSimulation();
+        build();
     }
 
-
-    //Do anything based on the simulator running
     @SuppressWarnings({"SameParameterValue", "Duplicates"})
-    public static void runSimulation() {
-        //Generate objects
-        int startTime = 0;
-        ArrayList<Fixtures> fixtures = loadFixtures();
-        ArrayList<WaterFixtures> waterFixtures = loadWaterFixtures();
-        ArrayList<Appliances> appliances = loadAppliances();
-        ArrayList<WaterAppliances> waterAppliances = loadWaterAppliances();
-        ArrayList<Room> rooms = loadRooms();
-
-        //Add all objects to their respective rooms
-        populateRooms(fixtures, waterFixtures, appliances, waterAppliances, rooms);
-
-        //Get config values
-        ArrayList<Integer> configValues = loadConfigValues();
-
-        //Get trigger values
-        ArrayList<Integer> triggerValues = loadTriggerValues();
-
-        //Create house object based on config parameters
-        House house = new House(configValues.get(0), configValues.get(1), configValues.get(2), configValues.get(3), configValues.get(4));
-
-        ArrayList<JLabel> applianceLabels = new ArrayList<>();
-        ArrayList<JLabel> waterApplianceLabels = new ArrayList<>();
-        ArrayList<JLabel> fixtureLabels = new ArrayList<>();
-        ArrayList<JLabel> waterFixtureLabels = new ArrayList<>();
-
+    public static void build() {
         //Create JPanels with a layout and jLabels for each room
         for (Room roomName : rooms) {
             JPanel panel = new JPanel(new BorderLayout());
@@ -110,9 +89,9 @@ public class HomeSimSystem {
 
             //Create simulator frame and move it to center of screen
             if (rooms.size() % 2 == 0) {
-                simFrame.setSize(1650, 170 + (rooms.size() / 2 * 200));
+                simFrame.setSize(1650, 160 + (rooms.size() / 2 * 200));
             } else {
-                simFrame.setSize(1650, 170 + (rooms.size() + 1) / 2 * 200);
+                simFrame.setSize(1650, 160 + (rooms.size() + 1) / 2 * 200);
             }
             Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
             int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
@@ -122,22 +101,41 @@ public class HomeSimSystem {
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             simFrame.add(panel);
         }
-        //Initialise and set variables used in loop
-        String meridian;
-        String message;
-        int startHour = 5;
-        int simSpeed = configValues.get(8);
-
-        String infoMsg;
-
         simFrame.eventAlertPanel.setBackground(Color.GREEN);
         simFrame.eventAlertText.setText("N/A");
         simFrame.electricityPanel.setBackground(new Color(0, 255, 0));
+    }
+
+    //Do anything based on the simulator running
+    public static void runSimulation() {
+        //Generate objects
+        final int[] startTime = {0};
+
+        //Add all objects to their respective rooms
+        populateRooms(fixtures, waterFixtures, appliances, waterAppliances, rooms);
+
+        //Get config values
+        ArrayList<Integer> configValues = loadConfigValues();
+
+        //Get trigger values
+        ArrayList<Integer> triggerValues = loadTriggerValues();
+
+        //Create house object based on config parameters
+        House house = new House(configValues.get(0), configValues.get(1), configValues.get(2), configValues.get(3), configValues.get(4));
+
+        //Initialise and set variables used in loop
+        final String[] meridian = new String[1];
+        final String[] message = new String[1];
+        final int[] startHour = {5};
+        int simSpeed = configValues.get(8);
+
+        final String[] infoMsg = new String[1];
         //Loop until start time is less than the end time
 
+        ActionListener taskPerformer = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        while (startTime < END_TIME) {
-            try {
                 //Set all objects in the house to be off
                 for (Fixtures fixtures1 : fixtures) {
                     fixtures1.setIsOn(false);
@@ -153,62 +151,62 @@ public class HomeSimSystem {
                 }
 
                 //Advance Time By 1 Minute
-                startTime++;
+                startTime[0]++;
 
                 //Calculate time in 12 hour time
-                if (startTime % 60 < 10) {
-                    message = "0";
-                } else message = "";
-                if (startHour % 13 == 0) {
-                    startHour = 1;
+                if (startTime[0] % 60 < 10) {
+                    message[0] = "0";
+                } else message[0] = "";
+                if (startHour[0] % 13 == 0) {
+                    startHour[0] = 1;
                 }
-                if (startTime > 420 && startTime < 1140) {
-                    meridian = "PM";
-                } else meridian = "AM";
-                if (startTime % 60 == 0) {
-                    ++startHour;
+                if (startTime[0] > 420 && startTime[0] < 1140) {
+                    meridian[0] = "PM";
+                } else meridian[0] = "AM";
+                if (startTime[0] % 60 == 0) {
+                    ++startHour[0];
                 }
 
                 //Check all of the house condition statements and change any that need to be changed
-                checkConditions(startTime, fixtures, waterFixtures, configValues, triggerValues, house, startHour);
+                checkConditions(startTime[0], fixtures, waterFixtures, configValues, triggerValues, house, startHour[0]);
 
                 //Go through each object in the house and set the text of it
                 for (int z = 0; z < applianceLabels.size(); z++) {
-                    infoMsg = String.format(" Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                    infoMsg[0] = String.format(" Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
                             appliances.get(z).getApplianceName(),
                             appliances.get(z).getIsOn(),
                             appliances.get(z).getOnDuration(),
                             appliances.get(z).getWattsPerMin() * appliances.get(z).getOnDuration());
-                    applianceLabels.get(z).setText(infoMsg);
+                    applianceLabels.get(z).setText(infoMsg[0]);
                 }
 
                 for (int z = 0; z < waterApplianceLabels.size(); z++) {
-                    infoMsg = String.format(" Water Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                    infoMsg[0] = String.format(" Water Appliance - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
                             waterAppliances.get(z).getApplianceName(),
                             waterAppliances.get(z).getIsOn(),
                             waterAppliances.get(z).getOnDuration(),
                             waterAppliances.get(z).getWattsPerMin() * waterAppliances.get(z).getOnDuration(),
                             waterAppliances.get(z).getLitersPerMin() * waterAppliances.get(z).getOnDuration());
-                    waterApplianceLabels.get(z).setText(infoMsg);
+                    waterApplianceLabels.get(z).setText(infoMsg[0]);
                 }
 
                 for (int z = 0; z < fixtureLabels.size(); z++) {
-                    infoMsg = String.format(" Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
+                    infoMsg[0] = String.format(" Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f ",
                             fixtures.get(z).getFixtureName(),
                             fixtures.get(z).getIsOn(),
                             fixtures.get(z).getOnDuration(),
                             fixtures.get(z).getWattsPerMin() * fixtures.get(z).getOnDuration());
-                    fixtureLabels.get(z).setText(infoMsg);
+                    fixtureLabels.get(z).setText(infoMsg[0]);
                 }
 
                 for (int z = 0; z < waterFixtureLabels.size(); z++) {
-                    infoMsg = String.format(" Water Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
+                    infoMsg[0] = String.format(" Water Fixture - %s | On = %s | Mins On = %s | Watts Used = %.0f | Liters Used = %.2f ",
                             waterFixtures.get(z).getFixtureName(),
                             waterFixtures.get(z).getIsOn(),
                             waterFixtures.get(z).getOnDuration(),
                             waterFixtures.get(z).getWattsPerMin() * waterFixtures.get(z).getOnDuration(),
                             waterFixtures.get(z).getLitersPerMin() * waterFixtures.get(z).getOnDuration());
-                    waterFixtureLabels.get(z).setText(infoMsg);
+                    waterFixtureLabels.get(z).setText(infoMsg[0]);
                 }
 
                 //Set indicator highlights for on or off
@@ -243,10 +241,10 @@ public class HomeSimSystem {
 
                 /*
                 =========================
-                START TESTS USING FIXTURES & APPLIANCES
+                RUN TESTS USING FIXTURES & APPLIANCES
                 =========================
                 */
-                if (startTime < 70) {
+                if (startTime[0] < 70) {
                     //Run un-used Appliances
                     for (Appliances appliance : appliances) {
                         //Run TV for 60 mins
@@ -295,25 +293,17 @@ public class HomeSimSystem {
                 }
                 /*
                 =========================
-                FINISHED TESTS USING FIXTURES & APPLIANCES
+                FINISHED TESTS RUNNING FIXTURES & APPLIANCES
                 =========================
                 */
 
-                //Print Status Of all objects based on config for how often to print
-                if (configValues.get(7) == 1 && startTime % configValues.get(10) == 0) {
-                    System.out.println();
-                    for (Room room : rooms) {
-                        room.displayObjects();
-                    }
-                    System.out.println("\n\n\n");
-                }
 
                 //Print house metrics based on config for how often to update
-                if (startTime % configValues.get(9) == 0) {
+                if (startTime[0] % configValues.get(9) == 0) {
                     simFrame.sunlightNumber.setText(Integer.toString(house.getCurrentSunlight()) + "%");
                     simFrame.temperatureNumber.setText(Integer.toString(house.getCurrentTemp()) + "°");
                     simFrame.soilMoistureNumber.setText(Integer.toString(house.getSoilMoisture()) + "%");
-                    simFrame.timeNumber.setText(startHour + ":" + message + startTime % 60 + " " + meridian);
+                    simFrame.timeNumber.setText(startHour[0] + ":" + message[0] + startTime[0] % 60 + " " + meridian[0]);
                 }
 
                 //Set colours for the information metrics
@@ -331,29 +321,67 @@ public class HomeSimSystem {
                 displayWaterUsage(waterFixtures, waterAppliances);
                 displayTotalRainDuration(house);
                 //Delay program for a specified amount of time
-                Thread.sleep(simSpeed);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
-
-        //Print status of all objects when simulator finishes if they are not printed while simulator is running
-        if (configValues.get(7) != 1) {
-            System.out.println();
-            for (Room room : rooms) {
-                room.displayObjects();
+                count++;
+                if (count >= END_TIME){
+                    timer.stop();
+                }
             }
-        }
+        };
+//        Timer timer = new Timer(simSpeed,taskPerformer);
+        timer = new Timer(simSpeed, taskPerformer);
+        timer.start();
+
 
         //Display the total electricity cost, water usage and total rain duration for the simulated day
     }
+
+    public static void run() {
+        if (stopped) {
+            runSimulation();
+            stopped = false;
+        } else {
+            timer.start();
+            simFrame.timePanel.setBackground(Color.WHITE);
+        }
+    }
+
+    public static void pause() {
+        if (stopped){
+            JOptionPane.showMessageDialog(null,"Simulator must be running to pause");
+        }
+        else {
+            timer.stop();
+            simFrame.timePanel.setBackground(Color.RED);
+            stopped = false;
+        }
+    }
+
+    public static void setSpeed(){
+        if (stopped){
+            JOptionPane.showMessageDialog(null,"Simulator must be running to change speed");
+        }
+        else {
+            int speed = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the new simulation speed"));
+            timer.setDelay(speed);
+        }
+    }
+
 
     public static void disableMetricsDisplay() {
         simFrame.electricityPanel.setVisible(false);
         simFrame.waterPanel.setVisible(false);
         simFrame.rainTimePanel.setVisible(false);
         simFrame.eventAlertPanel.setVisible(false);
+        if (rooms.size() % 2 == 0) {
+            simFrame.setSize(1650, 90 + (rooms.size() / 2 * 200));
+        } else {
+            simFrame.setSize(1650, 90 + (rooms.size() + 1) / 2 * 200);
+        }
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
+        simFrame.setLocation(x, y);
     }
 
     public static void enableMetricsDisplay() {
@@ -361,6 +389,15 @@ public class HomeSimSystem {
         simFrame.waterPanel.setVisible(true);
         simFrame.rainTimePanel.setVisible(true);
         simFrame.eventAlertPanel.setVisible(true);
+        if (rooms.size() % 2 == 0) {
+            simFrame.setSize(1650, 160 + (rooms.size() / 2 * 200));
+        } else {
+            simFrame.setSize(1650, 160 + (rooms.size() + 1) / 2 * 200);
+        }
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - simFrame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - simFrame.getHeight()) / 2);
+        simFrame.setLocation(x, y);
     }
 
     public static int displaySimSpeed() {
@@ -372,7 +409,7 @@ public class HomeSimSystem {
         double simMinutes = (1000.0 / simSpeed);
         double simHours = 60 / simMinutes;
 
-        JLabel label = new JLabel(String.format("<html>Simulation speed = <b>%d</b><br>Minutes per second = <b>%.2f</b>" +
+        JLabel label = new JLabel(String.format("<html>Simulation speed from config = <b>%d</b><br>Minutes per second = <b>%.2f</b>" +
                 "<br>Seconds per simulated hour = <b>%.2f</b><br>Total run time = <b>%.2f seconds</b></html>", simSpeed, simMinutes, simHours, runTime));
         label.setFont(new Font("Verdana", Font.PLAIN, 30));
         JOptionPane.showMessageDialog(null, label);
@@ -401,7 +438,6 @@ public class HomeSimSystem {
         //Stop Raining if its been raining for longer than set rain duration
         if (house.isRaining() && startTime > (house.getRainStart() + house.getRainEnd())) {
             house.setRaining(false);
-            System.out.println("\nIt has stopped raining\n");
         }
 
         //Increase soil moisture by 1 when raining every number of specified (trigger value) minutes
@@ -684,7 +720,6 @@ public class HomeSimSystem {
             JLabel message = new JLabel(sb.toString());
             message.setFont(new Font("Verdana", Font.PLAIN, 20));
             JOptionPane.showMessageDialog(null, message);
-            System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -729,7 +764,7 @@ public class HomeSimSystem {
     }
 
     //Load room values
-    private static ArrayList<Room> loadRooms() {
+    public static ArrayList<Room> loadRooms() {
         ArrayList<Room> roomList = new ArrayList<>();
 
         //Read in room data from csv file and add it to array list

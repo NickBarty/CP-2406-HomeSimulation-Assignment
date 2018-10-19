@@ -1,3 +1,7 @@
+REFER TO README TO SEE HOW TO USE THIS FILE
+=========================================
+CONFIG VALUES:
+=========================================
 ConfigValue,minTemperature,15
 ConfigValue,maxTemperature,35
 ConfigValue,startTemperature,15
@@ -5,16 +9,18 @@ ConfigValue,startSunlight,0
 ConfigValue,startMoisture,35
 ConfigValue,tempChangeDelayTime,25
 ConfigValue,soilChangeDelayTime,10
-ConfigValue,printOnOff,0
-ConfigValue,miliSecondsPerMin (simSpeed),10
+ConfigValue,DO_NOT_CHANGE,0
+ConfigValue,miliSecondsPerMin (simSpeed),50
 ConfigValue,minsBetweenUpdate,1
-ConfigValue,minsBetweenPrint,60
+ConfigValue,DO_NOT_CHANGE,60
 ConfigValue,randomEventChance,1
 ConfigValue,rainMinLength,30
 ConfigValue,rainMaxLength,120
 ConfigValue,centsPerKw,30
 
-
+=========================================
+TRIGGER VALUES:
+=========================================
 TriggerValue,minSunlightWhenRaining,30
 TriggerValue,fansOnAboveTemp,20
 TriggerValue,fansOnBelowTemp,28
@@ -23,8 +29,19 @@ TriggerValue,lightsOnBelowSunlight,20
 TriggerValue,updateSoilMoistureRaining,3
 TriggerValue,reduceMoistureAboveSunlight,40
 
+=========================================
+ROOM CREATION
+=========================================
+Room,Living Room
+Room,Master Bedroom
+Room,Spare Bedroom
+Room,Kitchen
+Room,Garage
+Room,Garden
 
-
+=========================================
+OBJECT CREATION IN ORDER OF ABOVE ROOMS
+=========================================
 Fixture,Light,1,Living Room
 Fixture,Aircon,15,Living Room
 Fixture,Fan,1.5,Living Room
@@ -50,10 +67,3 @@ Appliance,Car,0,Garage
 Fixture,Light,1,Garden
 WaterFixture,Sprinklers,0,1.5,Garden
 
-
-Room,Living Room
-Room,Master Bedroom
-Room,Spare Bedroom
-Room,Kitchen
-Room,Garage
-Room,Garden
