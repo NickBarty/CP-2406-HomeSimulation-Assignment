@@ -51,14 +51,19 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
     Font smallInfoFont = new Font("Verdana", Font.PLAIN, 15);
 
     int showHideCounter = 0;
-
+    Dimension metricDimensions = new Dimension();
 
 
 
     public SimulatorLayout() {
         super("Home Simulator System");
         setLayout(new FlowLayout());
-        Dimension metricDimensions = new Dimension((int)HomeSimSystem.dimension.getWidth()/4 - 5, 75);
+        if (HomeSimSystem.dimension.getWidth()<1600){
+            metricDimensions.setSize((int)HomeSimSystem.dimension.getWidth()/4 - 5, 75);
+        }
+        else {
+            metricDimensions.setSize(400, 75);
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
         setJMenuBar(mainBar);
