@@ -1,5 +1,8 @@
 # Home Automation Simulator
-This is the CP2406 home automation simulator project codebase.
+This is the CP2406 home automation simulator project codebase.  
+
+**IMPORTANT:**  
+This GUI is suited to screens of 1600px or more in width, smaller sizes should work but results may not be great
 # Task Plan
 1. (ON-GOING) Review project brief 
 2. (DONE) Establish initial version of user stories 
