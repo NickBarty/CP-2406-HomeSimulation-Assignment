@@ -1,18 +1,16 @@
-/*
-Provides getters and setters for House Water Object variables
-*/
+//Provides getters and setters for House water object variables
+
 public class HouseWaterObjects extends HouseObjects{
-    //House Water object Variables
+    //House water object Variables
     private double litersPerMin;
 
-    //House Water Object Constructor
+    //House water Object Constructor
     HouseWaterObjects(String name, double wattsPerMin, double litersPerMin, String room) {
         super(name, wattsPerMin, room);
         this.litersPerMin = litersPerMin;
     }
 
     //Getters and Setters
-
     double getLitersPerMin() {
         return litersPerMin;
     }

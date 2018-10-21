@@ -1,6 +1,4 @@
-/*
-Provides getters and setters for Room variables
-*/
+//Provides getters and setters for Room variables
 
 public class Room {
     //Room Variables

@@ -1,6 +1,5 @@
-/*
-Provides getters and setters for house objects
-*/
+//Provides getters and setters for house objects
+
 public class HouseObjects {
     //House Object Variables
     private String objectName;

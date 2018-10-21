@@ -7,11 +7,11 @@ ConfigValue,maxTemperature,35
 ConfigValue,startTemperature,15
 ConfigValue,startSunlight,0
 ConfigValue,startMoisture,35
-ConfigValue,tempChangeDelayTime,25
+ConfigValue,tempChangeDelayTime,15
 ConfigValue,soilChangeDelayTime,10
 ConfigValue,DO_NOT_CHANGE,0
 ConfigValue,miliSecondsPerMin (simSpeed),50
-ConfigValue,minsBetweenUpdate,1
+ConfigValue,DO_NOT_CHANGE,1
 ConfigValue,DO_NOT_CHANGE,60
 ConfigValue,randomEventChance,1
 ConfigValue,rainMinLength,30
@@ -66,4 +66,3 @@ Appliance,Car,0,Garage
 
 Fixture,Light,1,Garden
 WaterFixture,Sprinklers,0,1.5,Garden
-

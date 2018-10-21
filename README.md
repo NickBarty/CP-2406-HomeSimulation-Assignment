@@ -13,19 +13,21 @@ This is the CP2406 home automation simulator project codebase.
 
 # How To Use csv File
 The following details what is allowed in each field of  the 'config.csv' file
-- **ObjectType** can be: Fixture / Appliance / WaterFixture / WaterAppliance
-- **Name** can be: Any words
-- **ElectricityUsePerMinute** can be: Any Integer
-- **LitersUsedPerMin** can be: Any floating point number
-- **Location** can be: Any Room (If this doesn't match any created rooms the object will not be created)
+- **ObjectType can be**: Fixture / Appliance / WaterFixture / WaterAppliance
+- **Name can be**: Any words (String)
+- **ElectricityUsePerMinute can be**: Any Integer
+- **LitersUsedPerMin can be**: Any floating point number
+- **Room can be**: Any Room *(If this doesn't match any created rooms the object will not be created)*  
+**IMPORTANT:** _If any rooms or objects are set incorrectly they will not be made_
+
 #### Creating A Room:
 - Room, roomName
 - E.g: Room,Living Room
 #### Creating Fixtures and Appliances:
-- *ObjectType, Name, ElectricityUsePerMinute, Location
+- ObjectType, Name, ElectricityUsePerMinute, Room
 - E.g: Fixture,Light,1,Living Room
 #### Creating WaterFixtures and WaterAppliances:
-- ObjectType, Name, ElectricityUsePerMinute, LitersUsedPerMinute, Location
+- ObjectType, Name, ElectricityUsePerMinute, LitersUsedPerMinute, Room
 - E.g: <font color="red">WaterFixture,Sprinklers,0,1.5,Garden
 ## Config Values Information 
 - **minTemperature**: Set minimum temperature simulator will naturally get to
@@ -36,7 +38,6 @@ The following details what is allowed in each field of  the 'config.csv' file
 - **tempChangeDelayTime**: Set how often temperature is checked to be changed in simulated minutes 
 - **soilChangeDelayTime**: Set how often soil moisture is checked to be changed in simulated minutes 
 - **miliSecondsPerMin**: Set how many mili seconds is a simulated minute (Higher is slower)
-- **minsBetweenUpdate**: Set how often house metrics should be updated & printed in simulated minutes 
 - **randomEventChance**: Set how often random events occur (Higher is more often)
 - **rainMinLength**: Set the minimum number of simulated minutes to rain for if raining occurs
 - **rainMaxLength**: Set the maximum number of simulated minutes to rain for if raining occurs
