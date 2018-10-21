@@ -8,7 +8,6 @@ import java.util.*;
 public class HomeSimSystem {
     //Home Sim System Variables
     private static String csvFile = "config.csv";
-    private static String line;
     private static int simSpeed;
     private static int count = 0;
     private static int HOUR_COUNTER = 5;
@@ -610,6 +609,7 @@ public class HomeSimSystem {
 
     //Displays config values
     static void displayConfigData() {
+        String line;
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
 
@@ -633,6 +633,7 @@ public class HomeSimSystem {
 
     //Load all the objects, rooms, and config/trigger values
     private static void loadAllData() {
+        String line;
         //Try load the csv file
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             //Read each line of the csv file
