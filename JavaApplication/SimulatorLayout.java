@@ -7,57 +7,60 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
     JPanel sunlightPanel = new JPanel(new BorderLayout(5, 5));
     JPanel temperaturePanel = new JPanel(new BorderLayout(5, 5));
     JPanel soilMoisturePanel = new JPanel(new BorderLayout(5, 5));
+
     JPanel electricityPanel = new JPanel(new BorderLayout(5, 5));
     JPanel waterPanel = new JPanel(new BorderLayout(5, 5));
     JPanel rainTimePanel = new JPanel(new BorderLayout(5, 5));
     JPanel eventAlertPanel = new JPanel(new BorderLayout(5, 5));
 
-    JMenuBar mainBar = new JMenuBar();
-    JMenu menu1 = new JMenu("File");
-    JMenuItem viewConfig = new JMenuItem("Current Configuration (8)");
-    JMenuItem exit = new JMenuItem("Exit (9)");
-
-    JMenu menu2 = new JMenu("Simulation");
-    JMenuItem run = new JMenuItem("Run (1)");
-    JMenuItem pause = new JMenuItem("Pause (2)");
-    JMenuItem showHideInfo = new JMenuItem("Show/Hide Info (3)");
-    JMenuItem changeSimSpeed = new JMenuItem("Change Sim Speed (4)");
-
-    JMenu menu3 = new JMenu("Help");
-    JMenuItem about = new JMenuItem("About (5)");
-    JMenuItem userGuide = new JMenuItem("User Guide (6)");
-    JMenuItem viewSimMetrics = new JMenuItem("Sim-speed Metrics (7)");
-
-
-    JLabel sunlightLabel = new JLabel(" Sunlight Percent ", SwingConstants.CENTER);
-    JLabel sunlightNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel temperatureLabel = new JLabel(" Temperature ", SwingConstants.CENTER);
-    JLabel temperatureNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel soilMoistureLabel = new JLabel(" Soil Moisture Percent ", SwingConstants.CENTER);
-    JLabel soilMoistureNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel timeLabel = new JLabel(" Time ", SwingConstants.CENTER);
     JLabel timeNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel electricityLabel = new JLabel(" Electricity Used ", SwingConstants.CENTER);
+    JLabel sunlightNumber = new JLabel("", SwingConstants.CENTER);
+    JLabel temperatureNumber = new JLabel("", SwingConstants.CENTER);
+    JLabel soilMoistureNumber = new JLabel("", SwingConstants.CENTER);
+
     JLabel electricityNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel waterLabel = new JLabel(" Water Used", SwingConstants.CENTER);
     JLabel waterNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel rainTimeLabel = new JLabel(" Total Rain Time ", SwingConstants.CENTER);
     JLabel rainTimeNumber = new JLabel("", SwingConstants.CENTER);
-    JLabel eventAlertLabel = new JLabel(" Last Event To Occur ", SwingConstants.CENTER);
     JLabel eventAlertText = new JLabel("", SwingConstants.CENTER);
 
     Font labelFont = new Font("Verdana", Font.BOLD, 25);
-    Font infoFont = new Font("Verdana", Font.PLAIN, 20);
     Font smallInfoFont = new Font("Verdana", Font.PLAIN, 15);
 
-    int showHideCounter = 0;
-    Dimension metricDimensions = new Dimension();
+    private JMenuItem viewConfig = new JMenuItem("Current Configuration (8)");
+    private JMenuItem exit = new JMenuItem("Exit (9)");
 
+    private JMenuItem run = new JMenuItem("Run (1)");
+    private JMenuItem pause = new JMenuItem("Pause (2)");
+    private JMenuItem showHideInfo = new JMenuItem("Show/Hide Info (3)");
+    private JMenuItem changeSimSpeed = new JMenuItem("Change Sim Speed (4)");
 
+    private JMenuItem about = new JMenuItem("About (5)");
+    private JMenuItem userGuide = new JMenuItem("User Guide (6)");
+    private JMenuItem viewSimMetrics = new JMenuItem("Sim-speed Metrics (7)");
 
-    public SimulatorLayout() {
+    private int showHideCounter = 0;
+
+    SimulatorLayout() {
         super("Home Simulator System");
+        JMenuBar mainBar = new JMenuBar();
+        JMenu menu1 = new JMenu("File");
+        JMenu menu2 = new JMenu("Simulation");
+        JMenu menu3 = new JMenu("Help");
+
+        JLabel timeLabel = new JLabel(" Time ", SwingConstants.CENTER);
+        JLabel sunlightLabel = new JLabel(" Sunlight Percent ", SwingConstants.CENTER);
+        JLabel temperatureLabel = new JLabel(" Temperature ", SwingConstants.CENTER);
+        JLabel soilMoistureLabel = new JLabel(" Soil Moisture Percent ", SwingConstants.CENTER);
+
+        JLabel electricityLabel = new JLabel(" Electricity Used ", SwingConstants.CENTER);
+        JLabel waterLabel = new JLabel(" Water Used", SwingConstants.CENTER);
+        JLabel rainTimeLabel = new JLabel(" Total Rain Time ", SwingConstants.CENTER);
+        JLabel eventAlertLabel = new JLabel(" Last Event To Occur ", SwingConstants.CENTER);
+
+        Font infoFont = new Font("Verdana", Font.PLAIN, 20);
+
         setLayout(new FlowLayout());
+        Dimension metricDimensions = new Dimension();
         if (HomeSimSystem.dimension.getWidth()<1600){
             metricDimensions.setSize((int)HomeSimSystem.dimension.getWidth()/4 - 5, 75);
         }
@@ -210,11 +213,11 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
         }
 
         if (source == about) {
-            JmenuDialogues.displayAbout();
+            JMenuDialogues.displayAbout();
         }
 
         if (source == userGuide) {
-            JmenuDialogues.displayUserGuide();
+            JMenuDialogues.displayUserGuide();
         }
 
         if (source == viewSimMetrics) {
@@ -244,10 +247,10 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
             HomeSimSystem.setSpeed();
         }
         if (c == '5') {
-            JmenuDialogues.displayAbout();
+            JMenuDialogues.displayAbout();
         }
         if (c == '6') {
-            JmenuDialogues.displayUserGuide();
+            JMenuDialogues.displayUserGuide();
         }
         if (c == '7') {
             HomeSimSystem.displaySimSpeed();

@@ -1,15 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class JmenuDialogues {
-    public static void displayAbout(){
-        JLabel message = new JLabel("<html><center><b>About Info</b></center>Home simulator version: <b>V0.30</b><br>" +
+class JMenuDialogues {
+    static void displayAbout(){
+        JLabel message = new JLabel("<html><center><b>About Info</b></center>Home simulator version: <b>V0.32</b><br>" +
                 "Programmer: <b>Nicholas Barty</b></html>");
         message.setFont(new Font("Verdana", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(null,message);
     }
 
-    public static void displayUserGuide(){
+    static void displayUserGuide(){
         JLabel message = new JLabel("<html><center><b>User Guide</b></center>- This is a home simulation simulator<br><br>" +
                 "- The house is loaded based on the <b>'config.csv'</b> file <br><br>" +
                 "- Find current configuration under: <b>File -> Current Configuration</b><br><br>" +
