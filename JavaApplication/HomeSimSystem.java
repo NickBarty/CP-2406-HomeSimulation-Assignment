@@ -140,6 +140,8 @@ public class HomeSimSystem {
     private static void runSimulation() {
         //Create house object based on config parameters
         House house = new House(configValues.get(0), configValues.get(1), configValues.get(2), configValues.get(3), configValues.get(4));
+        simFrame.eventAlertText.setText("N/A");
+        simFrame.eventAlertPanel.setBackground(Color.GREEN);
 
         //Initialise and set variables used in timer loop
         final String[] meridian = new String[1];
@@ -686,8 +688,8 @@ public class HomeSimSystem {
             stopped = false;
         } else {
             timer.start();
-            simFrame.timePanel.setBackground(Color.WHITE);
         }
+        simFrame.timePanel.setBackground(Color.WHITE);
     }
 
     //Pauses the simulation
@@ -696,8 +698,35 @@ public class HomeSimSystem {
             JOptionPane.showMessageDialog(null, "Simulator must be running to pause");
         } else {
             timer.stop();
-            simFrame.timePanel.setBackground(Color.RED);
+            simFrame.timePanel.setBackground(Color.ORANGE);
             stopped = false;
+        }
+    }
+
+    //Stops the simulation
+    static void stop(){
+        if (stopped){
+            JOptionPane.showMessageDialog(null, "Simulator must be running to stop");
+        }
+        else {
+            timer.stop();
+            count = 0;
+            HOUR_COUNTER = 5;
+            MINUTE_COUNTER = 0;
+            simFrame.timePanel.setBackground(Color.RED);
+            for (HouseObjects fixture : fixtures) {
+                fixture.setOnDuration(0);
+            }
+            for (HouseWaterObjects waterFixture : waterFixtures) {
+                waterFixture.setOnDuration(0);
+            }
+            for (HouseObjects appliance : appliances) {
+                appliance.setOnDuration(0);
+            }
+            for (HouseWaterObjects waterAppliance : waterAppliances) {
+                waterAppliance.setOnDuration(0);
+            }
+            stopped = true;
         }
     }
 

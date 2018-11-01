@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 //Sets the layout for the GUI and sets event listeners
-public class SimulatorLayout extends JFrame implements ActionListener, KeyListener {
+public class SimulatorLayout extends JFrame implements KeyListener {
     //Create first row of GUI panels
     JPanel timePanel = new JPanel(new BorderLayout(5, 5));
     JPanel sunlightPanel = new JPanel(new BorderLayout(5, 5));
@@ -33,19 +33,20 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
     Font smallInfoFont = new Font("Verdana", Font.PLAIN, 15);
 
     //Create menu items for menu 1
-    private JMenuItem viewConfig = new JMenuItem("Current Configuration (8)");
-    private JMenuItem exit = new JMenuItem("Exit (9)");
+    private JMenuItem viewConfig = new JMenuItem("Current Configuration (9)");
+    private JMenuItem exit = new JMenuItem("Exit (0)");
 
     //Create menu items for menu 2
     private JMenuItem run = new JMenuItem("Run (1)");
     private JMenuItem pause = new JMenuItem("Pause (2)");
-    private JMenuItem showHideInfo = new JMenuItem("Show/Hide Info (3)");
-    private JMenuItem changeSimSpeed = new JMenuItem("Change Sim Speed (4)");
+    private JMenuItem stop = new JMenuItem("Stop (3)");
+    private JMenuItem showHideInfo = new JMenuItem("Show/Hide Info (4)");
+    private JMenuItem setSimSpeed = new JMenuItem("Change Sim Speed (5)");
 
     //Create menu items for menu 3
-    private JMenuItem about = new JMenuItem("About (5)");
-    private JMenuItem userGuide = new JMenuItem("User Guide (6)");
-    private JMenuItem viewSimMetrics = new JMenuItem("Sim-speed Metrics (7)");
+    private JMenuItem about = new JMenuItem("About (6)");
+    private JMenuItem userGuide = new JMenuItem("User Guide (7)");
+    private JMenuItem viewSimMetrics = new JMenuItem("Sim-speed Metrics (8)");
 
     //Create counter to allow show/hide functionality
     private int showHideCounter = 0;
@@ -93,28 +94,30 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
         mainBar.add(menu1);
         menu1.add(viewConfig);
         menu1.add(exit);
-        viewConfig.addActionListener(this);
-        exit.addActionListener(this);
+        viewConfig.addActionListener(e -> viewConfig());
+        exit.addActionListener(e -> exit());
 
         //Add menu 2, its menu items, and the required action listeners
         mainBar.add(menu2);
         menu2.add(run);
         menu2.add(pause);
+        menu2.add(stop);
         menu2.add(showHideInfo);
-        menu2.add(changeSimSpeed);
-        run.addActionListener(this);
-        pause.addActionListener(this);
-        showHideInfo.addActionListener(this);
-        changeSimSpeed.addActionListener(this);
+        menu2.add(setSimSpeed);
+        run.addActionListener(e -> runSim());
+        pause.addActionListener(e -> pauseSim());
+        stop.addActionListener(e -> stopSim());
+        showHideInfo.addActionListener(e -> toggleMetricsVisibility());
+        setSimSpeed.addActionListener(e -> setSimSpeed());
 
         //Add menu 3, its menu items, and the required action listeners
         mainBar.add(menu3);
         menu3.add(about);
         menu3.add(userGuide);
         menu3.add(viewSimMetrics);
-        about.addActionListener(this);
-        userGuide.addActionListener(this);
-        viewSimMetrics.addActionListener(this);
+        about.addActionListener(e -> aboutSim());
+        userGuide.addActionListener(e -> userGuide());
+        viewSimMetrics.addActionListener(e -> viewSimMetrics());
 
 
         //Add the time panel and set the layout
@@ -196,60 +199,50 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
         setVisible(true);
     }
 
+    private void viewConfig() {
+        HomeSimSystem.displayConfigData();
+    }
 
-    @Override
-    //Set events for button presses
-    public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
+    private void exit() {
+        System.exit(0);
+    }
 
-        //View the loaded config data
-        if (source == viewConfig) {
-            HomeSimSystem.displayConfigData();
-        }
-
-        //Exit the program
-        if (source == exit) {
-            System.exit(0);
-        }
-
-        //Toggle the visibility state of the non essential metrics
-        if (source == showHideInfo && showHideCounter % 2 == 0) {
+    private void toggleMetricsVisibility() {
+        if (showHideCounter % 2 == 0) {
             HomeSimSystem.disableMetricsDisplay();
             showHideCounter++;
         } else {
             HomeSimSystem.enableMetricsDisplay();
             showHideCounter++;
         }
+    }
 
-        //Run the simulator from the current time
-        if (source == run) {
-            HomeSimSystem.run();
-        }
+    private void runSim() {
+        HomeSimSystem.run();
+    }
 
-        //Pause the simulator at the current time
-        if (source == pause) {
-            HomeSimSystem.pause();
-        }
+    private void pauseSim() {
+        HomeSimSystem.pause();
+    }
 
-        //Change the simSpeed to the specified speed
-        if (source == changeSimSpeed) {
-            HomeSimSystem.setSpeed();
-        }
+    private void stopSim() {
+        HomeSimSystem.stop();
+    }
 
-        //Display the about information
-        if (source == about) {
-            JMenuDialogues.displayAbout();
-        }
+    private void setSimSpeed() {
+        HomeSimSystem.setSpeed();
+    }
 
-        //Display the user guide
-        if (source == userGuide) {
-            JMenuDialogues.displayUserGuide();
-        }
+    private void aboutSim() {
+        JMenuDialogues.displayAbout();
+    }
 
-        //Display information about the simulation speed
-        if (source == viewSimMetrics) {
-            HomeSimSystem.displaySimSpeed();
-        }
+    private void userGuide() {
+        JMenuDialogues.displayUserGuide();
+    }
+
+    private void viewSimMetrics() {
+        HomeSimSystem.displaySimSpeed();
     }
 
     @Override
@@ -258,50 +251,50 @@ public class SimulatorLayout extends JFrame implements ActionListener, KeyListen
 
         //Run the simulator from the current time
         if (c == '1') {
-            HomeSimSystem.run();
+            runSim();
         }
 
         //Pause the simulator at the current time
         if (c == '2') {
-            HomeSimSystem.pause();
+            pauseSim();
         }
 
         //Toggle the visibility state of the non essential metrics
-        if (c == '3' && showHideCounter % 2 == 0) {
-            HomeSimSystem.disableMetricsDisplay();
-            showHideCounter++;
-        } else {
-            HomeSimSystem.enableMetricsDisplay();
-            showHideCounter++;
+        if (c == '3') {
+            stopSim();
         }
 
         //Change the simSpeed to the specified speed
         if (c == '4') {
-            HomeSimSystem.setSpeed();
+            toggleMetricsVisibility();
         }
 
         //Display the about information
         if (c == '5') {
-            JMenuDialogues.displayAbout();
+            setSimSpeed();
         }
 
         //Display the user guide
         if (c == '6') {
-            JMenuDialogues.displayUserGuide();
+            JMenuDialogues.displayAbout();
         }
 
         //Display information about the simulation speed
         if (c == '7') {
-            HomeSimSystem.displaySimSpeed();
+            JMenuDialogues.displayUserGuide();
         }
 
         //View the loaded config data
         if (c == '8') {
-            HomeSimSystem.displayConfigData();
+            viewSimMetrics();
         }
 
         //Exit the program
         if (c == '9') {
+            viewConfig();
+        }
+
+        if (c == '0') {
             System.exit(0);
         }
     }

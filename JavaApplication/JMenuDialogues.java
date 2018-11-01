@@ -4,7 +4,7 @@ import java.awt.*;
 class JMenuDialogues {
     //Displays About information
     static void displayAbout(){
-        JLabel message = new JLabel("<html><center><b>About Info</b></center>Home simulator version: <b>V0.34</b><br>" +
+        JLabel message = new JLabel("<html><center><b>About Info</b></center>Home simulator version: <b>V0.36</b><br>" +
                 "Programmer: <b>Nicholas Barty</b></html>");
         message.setFont(new Font("Verdana", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(null,message);
@@ -22,13 +22,14 @@ class JMenuDialogues {
                 "<center><b>Shortcut Keys:</b></center>" +
                 "<b>(1)</b> Run Simulator<br>" +
                 "<b>(2)</b> Pause Simulator<br>" +
-                "<b>(3)</b> Show/Hide Metrics<br>" +
-                "<b>(4)</b> Set Simulation Speed<br>" +
-                "<b>(5)</b> Display About Information<br>" +
-                "<b>(6)</b> Display This Guide<br>" +
-                "<b>(7)</b> Display Sim Speed Metrics<br>" +
-                "<b>(8)</b> Display Loaded Config Data<br>" +
-                "<b>(9)</b> Exit Program</html>");
+                "<b>(3)</b> Stop Simulator<br>" +
+                "<b>(4)</b> Show/Hide Metrics<br>" +
+                "<b>(5)</b> Set Simulation Speed<br>" +
+                "<b>(6)</b> Display About Information<br>" +
+                "<b>(7)</b> Display This Guide<br>" +
+                "<b>(8)</b> Display Sim Speed Metrics<br>" +
+                "<b>(9)</b> Display Loaded Config Data<br>" +
+                "<b>(0)</b> Exit Program</html>");
         message.setFont(new Font("Verdana", Font.PLAIN, 20));
         JOptionPane.showMessageDialog(null,message);
     }
